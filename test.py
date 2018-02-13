@@ -1,7 +1,5 @@
 import math
-# import numpy as np
-# from math import exp, expm1
-
+from param import Param
 # soDistance = input("please enter the actual stand-off distance (D) [m]: ")
 # neQuantity = input("please enter the net explosive quantity (Q) [kg]: ")
 
@@ -39,65 +37,8 @@ while True:
         raise SystemExit("you should select from the options")
 
 TNT_EQ_WT = neQty * TNT_EQ_Fig
-scDist = soDist / math.pow(TNT_EQ_WT, 0.3333)
-logScaledDist = math.log(scDist, 10)
-
-# ----------------------------------------------------
-# get Ps
-
-
-def get_fn_u_pow(ps_u, slope, pow):
-    return slope * math.pow(ps_u, pow)
-
-
-def get_list_fn_u(u, list_slope_u):
-    storage = []
-    for idx, item in enumerate(list_slope_u):
-        storage.append(get_fn_u_pow(u, item, idx + 1))
-    return storage
-
-
-class Param:
-    def __init__(self, const_u, logScaledDist, list_slope_u_air, list_slope_u_surface, limit, const_y):
-        self.u = const_u[0] + const_u[1] * logScaledDist
-        self.list_slope_u = [
-            list_slope_u_air,
-            list_slope_u_surface
-        ]
-        self.limit = limit
-        self.const_y = const_y
-
-    def get_fn_u_pow(self, slope, pow):
-        return slope * math.pow(self.u, pow)
-
-    def get_list_fn_u(self, slopes):
-        storage = []
-        for idx, item in enumerate(slopes):
-            storage.append(self.get_fn_u_pow(item, idx + 1))
-        return storage
-
-    def get_filtered_result(self):
-        for idx, slopes in enumerate(self.list_slope_u):
-            list_fn = self.get_list_fn_u(slopes)
-
-            y = self.const_y[idx] + sum(list_fn)
-            if scDist < self.limit['lower_limit']:
-                appl_lower_rng_filter = 0
-            else:
-                appl_lower_rng_filter = y
-
-            if scDist > self.limit['upper_limit']:
-                appl_upper_rng_filter = 0
-            else:
-                appl_upper_rng_filter = y
-            checksum = appl_lower_rng_filter + appl_upper_rng_filter
-
-            if checksum == 2 * y:
-                # return y
-                print(y)
-            else:
-                # return 0
-                print(0)
+sc_dist = soDist / math.pow(TNT_EQ_WT, 0.3333)
+logScaledDist = math.log(sc_dist, 10)
 
 const_ps_u = [
     -0.214362789151,
@@ -144,6 +85,6 @@ limit_ps = {
     'upper_limit': 40
 }
 
-ps = Param(const_ps_u, logScaledDist, list_slope_ps_u_air, list_slope_ps_u_surface, limit_ps, const_y_p_s)
+ps = Param(sc_dist, const_ps_u, logScaledDist, list_slope_ps_u_air, list_slope_ps_u_surface, limit_ps, const_y_p_s)
 
 ps.get_filtered_result()
