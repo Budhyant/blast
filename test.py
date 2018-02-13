@@ -1,4 +1,5 @@
 import math
+# import numpy as np
 # from math import exp, expm1
 
 # soDistance = input("please enter the actual stand-off distance (D) [m]: ")
@@ -49,14 +50,59 @@ def get_fn_u_pow(ps_u, slope, pow):
     return slope * math.pow(ps_u, pow)
 
 
-def get_list_fn_u(u, list_slop_u):
+def get_list_fn_u(u, list_slope_u):
     storage = []
-    for idx, item in enumerate(list_slop_u):
+    for idx, item in enumerate(list_slope_u):
         storage.append(get_fn_u_pow(u, item, idx + 1))
     return storage
 
-ps_u = -0.214362789151 + 1.35034249993 * logScaledDist
-# print(ps_u)
+
+class Param:
+    def __init__(self, const_u, logScaledDist, list_slope_u_air, list_slope_u_surface, limit, const_y):
+        self.u = const_u[0] + const_u[1] * logScaledDist
+        self.list_slope_u = [
+            list_slope_u_air,
+            list_slope_u_surface
+        ]
+        self.limit = limit
+        self.const_y = const_y
+
+    def get_fn_u_pow(self, slope, pow):
+        return slope * math.pow(self.u, pow)
+
+    def get_list_fn_u(self, slopes):
+        storage = []
+        for idx, item in enumerate(slopes):
+            storage.append(self.get_fn_u_pow(item, idx + 1))
+        return storage
+
+    def get_filtered_result(self):
+        for idx, slopes in enumerate(self.list_slope_u):
+            list_fn = self.get_list_fn_u(slopes)
+
+            y = self.const_y[idx] + sum(list_fn)
+            if scDist < self.limit['lower_limit']:
+                appl_lower_rng_filter = 0
+            else:
+                appl_lower_rng_filter = y
+
+            if scDist > self.limit['upper_limit']:
+                appl_upper_rng_filter = 0
+            else:
+                appl_upper_rng_filter = y
+            checksum = appl_lower_rng_filter + appl_upper_rng_filter
+
+            if checksum == 2 * y:
+                # return y
+                print(y)
+            else:
+                # return 0
+                print(0)
+
+const_ps_u = [
+    -0.214362789151,
+    1.35034249993
+]
 
 list_slope_ps_u_air = [
     -1.69012801396,
@@ -88,51 +134,16 @@ list_slope_ps_u = [
     list_slope_ps_u_surface
 ]
 
-arr_const_y_p_s = [
+const_y_p_s = [
     2.611368669,
     2.78076916577
 ]
 
-for idx, slopes in enumerate(list_slope_ps_u):
-    list_fn_ps_u = get_list_fn_u(ps_u, slopes)
-    # print('idx: ', idx, 'list_fn_ps_u', list_fn_ps_u)
+limit_ps = {
+    'lower_limit': 0.0531,
+    'upper_limit': 40
+}
 
-    ps_y = arr_const_y_p_s[idx] + sum(list_fn_ps_u)
-    # print('ps_y', ps_y)
+ps = Param(const_ps_u, logScaledDist, list_slope_ps_u_air, list_slope_ps_u_surface, limit_ps, const_y_p_s)
 
-    appl_lower_rng_filter = None
-    appl_upper_rng_filter = None
-
-    if scDist < 0.0531:
-        appl_lower_rng_filter = 0
-    else:
-        appl_lower_rng_filter = ps_y
-    # print(appl_lower_rng_filter)
-
-    if scDist > 40:
-        appl_upper_rng_filter = 0
-    else:
-        appl_upper_rng_filter = ps_y
-    ps_checksum = appl_lower_rng_filter + appl_upper_rng_filter
-
-    filtered_result = None
-    if ps_checksum == 2 * ps_y:
-        filtered_result = ps_y
-    else:
-        filtered_result = 0
-
-    ps_anti_log_y = None
-    if filtered_result == 0:
-        ps_anti_log_y = 0
-    else:
-        ps_anti_log_y = 10 ** ps_y
-
-    # print(ps_anti_log_y)
-
-    if filtered_result == 0:
-        raise SystemExit("filtered result = 0")
-    else:
-        p_s = ps_anti_log_y
-
-    print('Ps: ', p_s)
-
+ps.get_filtered_result()
