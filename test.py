@@ -86,49 +86,70 @@ const_y_p_s = [
     2.78076916577
 ]
 
-limit_ps = {
-    'lower_limit': 0.0531,
-    'upper_limit': 40
-}
-
-ps = Param(sc_dist, const_ps_u_air, const_ps_u_surface, logScaledDist, list_slope_ps_u_air, list_slope_ps_u_surface, limit_ps, const_y_p_s)
-
-ps_ys = ps.get_y()
-print('Y for air and surface', ps_ys)
-
-
-ps_anti_log = None
-for y in ps_ys:
-    if y == 0:
-        raise SystemExit("filtered result: 0")
-    else:
-        p_s = math.pow(10, y)
-        print('Ps: ', p_s)
-
-"""
-    get Is F(I) for Air
-"""
-
-const_is_u_air = [
-    2.34723921354,
-    3.24299066475
+limits_ps = [
+    {
+        'lower_limit': 0.0531,
+        'upper_limit': 40
+    },
+    {
+        'lower_limit': 0.064,
+        'upper_limit': 40
+    }
 ]
 
-const_is_u_surface = [
-    2.06761908721,
-    3.0760329666
-]
 
-list_slope_is_u_air = [
-    -0.443749377691,
-    0.168825414684,
-    0.0348138030308,
-    -0.010435192824,
-]
+ps = Param(sc_dist, const_ps_u_air, const_ps_u_surface, logScaledDist, list_slope_ps_u_air, list_slope_ps_u_surface, limits_ps, const_y_p_s)
+# ps_ys = ps.get_y()
+# print('Y for air and surface', ps_ys)
+ps_ft_result = ps.get_ft_result()
+print('ps ft result', ps_ft_result)
 
-list_slope_is_u_surface = [
-    -0.502992763686,
-    0.171335645235,
-    0.0450176963051,
-    -0.0118964626402
-]
+# ps_anti_log = None
+# for y in ps_ys:
+#     if y == 0:
+#         raise SystemExit("filtered result: 0")
+#     else:
+#         p_s = math.pow(10, y)
+#         print('Ps: ', p_s)
+
+# """
+#     get Is F(I) for Air
+# """
+
+# const_is_u_air = [
+#     2.34723921354,
+#     3.24299066475
+# ]
+
+# const_is_u_surface = [
+#     2.06761908721,
+#     3.0760329666
+# ]
+
+# list_slope_is_u_air = [
+#     -0.443749377691,
+#     0.168825414684,
+#     0.0348138030308,
+#     -0.010435192824,
+# ]
+
+# list_slope_is_u_surface = [
+#     -0.502992763686,
+#     0.171335645235,
+#     0.0450176963051,
+#     -0.0118964626402
+# ]
+
+# Is = Param(sc_dist, const_is_u_air, const_is_u_surface, logScaledDist, list_slope_is_u_air, list_slope_is_u_surface, limit_is, const_y_i_s)
+
+# ps_ys = ps.get_y()
+# print('Y for air and surface', ps_ys)
+
+
+# ps_anti_log = None
+# for y in ps_ys:
+#     if y == 0:
+#         raise SystemExit("filtered result: 0")
+#     else:
+#         p_s = math.pow(10, y)
+#         print('Ps: ', p_s)
