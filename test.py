@@ -288,6 +288,55 @@ obj_pr = {
     ]
 }
 
-is_pr = Param(obj_pr)
-is_pr_ft_result = is_pr.get_ft_result()
-print('is_pr ft result', is_pr_ft_result)
+pr = Param(obj_pr)
+pr_ft_result = pr.get_ft_result()
+print('pr ft result', pr_ft_result)
+
+'''
+    get Ir
+'''
+
+obj_ir = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        -0.204004553231,
+        1.37882996018
+    ],
+    'const_u_surface': [
+        -0.246208804814,
+        1.33422049854
+    ],
+
+    'list_slope_u_air': [
+        -0.903118886091,
+        0.101771877942,
+        -0.0242139751146
+    ],
+
+    'list_slope_u_surface': [
+        -0.949516092853,
+        0.112136118689,
+        -0.0250659183287
+    ],
+
+    'const_y': [
+        2.55875660396,
+        2.70588058103
+    ],
+
+    'limits': [
+        {
+            'lower_limit': 0.0531,
+            'upper_limit': 40
+        },
+        {
+            'lower_limit': 0.0674,
+            'upper_limit': 40
+        }
+    ]
+}
+
+ir = Param(obj_ir)
+ir_ft_result = ir.get_ft_result()
+print('ir_ft_result', ir_ft_result)
