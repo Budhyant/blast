@@ -171,3 +171,58 @@ print('is_f1 ft result', is_f1_ft_result)
 #     else:
 #         p_s = math.pow(10, y)
 #         print('Ps: ', p_s)
+
+
+obj_is_f2 = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        -1.75305660315,
+        2.30629231803
+    ],
+    'const_u_surface': [
+        -1.94708846747,
+        2.40697745406
+    ],
+
+    'list_slope_u_air': [
+        -0.40463292088,
+        -0.0142721946082,
+        0.00912366316617,
+        -0.0006750681404,
+        -0.00800863718901,
+        0.00314819515931,
+        0.00152044783382,
+        -0.0007470265899
+    ],
+
+    'list_slope_u_surface': [
+        -0.384519026965,
+        -0.0260816706301,
+        0.00595798753822,
+        0.0145445261077,
+        -0.00663289334734,
+        -0.00284189327204,
+        0.0013644816227
+    ],
+
+    'const_y': [
+        1.55197227115,
+        1.67281645863
+    ],
+
+    'limits': [
+        {
+            'lower_limit': 0.792,
+            'upper_limit': 40
+        },
+        {
+            'lower_limit': 0.955,
+            'upper_limit': 40
+        }
+    ]
+}
+
+is_f2 = Param(obj_is_f2)
+is_f2_ft_result = is_f2.get_ft_result()
+print('is_f2 ft result', is_f2_ft_result)
