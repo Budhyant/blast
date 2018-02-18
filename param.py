@@ -60,7 +60,6 @@ class Param:
         ys = self.get_y()
         # print('ys', ys)
         limits = self.limits
-        # print('limits', limits)
         sc_dist = self.sc_dist
         storage_ft_result = []
         for idx, y in enumerate(ys):

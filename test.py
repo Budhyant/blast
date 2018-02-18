@@ -112,9 +112,9 @@ print('ps ft result', ps_ft_result)
 #         p_s = math.pow(10, y)
 #         print('Ps: ', p_s)
 
-# """
-#     get Is F(I) for Air
-# """
+'''
+    get Is F(I) for Air
+'''
 
 obj_is_f1 = {
     'sc_dist': sc_dist,
@@ -172,7 +172,9 @@ print('is_f1 ft result', is_f1_ft_result)
 #         p_s = math.pow(10, y)
 #         print('Ps: ', p_s)
 
-
+'''
+    get Is F(II) for Air
+'''
 obj_is_f2 = {
     'sc_dist': sc_dist,
     'log_sc_dist': log_sc_dist,
@@ -226,3 +228,66 @@ obj_is_f2 = {
 is_f2 = Param(obj_is_f2)
 is_f2_ft_result = is_f2.get_ft_result()
 print('is_f2 ft result', is_f2_ft_result)
+
+'''
+    get Pr
+'''
+
+obj_pr = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        -0.214362789151,
+        1.35034249993
+    ],
+    'const_u_surface': [
+        -0.240657322658,
+        1.3663771922
+    ],
+
+    'list_slope_u_air': [
+        -2.21400538997,
+        0.035119031446,
+        0.657599992109,
+        0.0141818951887,
+        -0.243076636231,
+        -0.0158699803158,
+        0.0492741184234,
+        0.00227639644004,
+        -0.00397126276058
+    ],
+
+    'list_slope_u_surface': [
+        -2.21030870597,
+        -0.218536586295,
+        0.895319589372,
+        0.24989009775,
+        -0.569249436807,
+        -0.11791682383,
+        0.224131161411,
+        0.0245620259375,
+        -0.0455116002694,
+        -0.0019093073888,
+        0.00361471193389
+    ],
+
+    'const_y': [
+        3.22958031387,
+        3.40283217581
+    ],
+
+    'limits': [
+        {
+            'lower_limit': 0.0531,
+            'upper_limit': 40
+        },
+        {
+            'lower_limit': 0.0674,
+            'upper_limit': 40
+        }
+    ]
+}
+
+is_pr = Param(obj_pr)
+is_pr_ft_result = is_pr.get_ft_result()
+print('is_pr ft result', is_pr_ft_result)
