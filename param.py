@@ -6,6 +6,8 @@ class Param:
     big_y_surface = None
     ft_result_air = None
     ft_result_surface = None
+    alog_y_air = None
+    alog_y_surface = None
 
     sc_dist = 0
     const_u_air = 0
@@ -56,7 +58,7 @@ class Param:
             self.big_y_surface
         ]
 
-    def get_ft_result(self):
+    def get_ft_results(self):
         ys = self.get_y()
         # print('ys', ys)
         limits = self.limits
@@ -78,3 +80,23 @@ class Param:
             else:
                 storage_ft_result.append(0)
         return storage_ft_result
+
+    def get_alog_y(self):
+        y = self.get_y()
+        ft_results = self.get_ft_results()
+        alog_ys = []
+        for idx, ft_result in enumerate(ft_results):
+            if ft_result == 0:
+                if idx == 0:
+                    self.alog_y_air = 0
+                else:
+                    self.alog_y_surface = 0
+            else:
+                if idx == 0:
+                    self.alog_y_air = math.pow(10, y[idx])
+                else:
+                    self.alog_y_surface = math.pow(10, y[idx])
+        return [
+            self.alog_y_air,
+            self.alog_y_surface
+        ]

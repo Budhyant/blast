@@ -101,16 +101,20 @@ obj_ps = {
 ps = Param(obj_ps)
 # ps_ys = ps.get_y()
 # print('Y for air and surface', ps_ys)
-ps_ft_result = ps.get_ft_result()
-print('ps ft result', ps_ft_result)
+ps_ft_results = ps.get_ft_results()
+print('ps ft result', ps_ft_results)
+alog_ys = ps.get_alog_y()
+print('alog_ys', alog_ys)
 
-# ps_anti_log = None
-# for y in ps_ys:
-#     if y == 0:
-#         raise SystemExit("filtered result: 0")
-#     else:
-#         p_s = math.pow(10, y)
-#         print('Ps: ', p_s)
+for idx, ft_result in enumerate(ps_ft_results):
+    if ft_result == 0:
+        raise SystemExit("filtered result: 0")
+    else:
+        p_s = alog_ys[idx]
+        if idx == 0:
+            print('Ps(air): ', p_s)
+        else:
+            print('Ps(surface)', p_s)
 
 '''
     get Is F(I) for Air
@@ -160,7 +164,7 @@ obj_is_f1 = {
 }
 
 is_f1 = Param(obj_is_f1)
-is_f1_ft_result = is_f1.get_ft_result()
+is_f1_ft_result = is_f1.get_ft_results()
 print('is_f1 ft result', is_f1_ft_result)
 
 
@@ -226,7 +230,7 @@ obj_is_f2 = {
 }
 
 is_f2 = Param(obj_is_f2)
-is_f2_ft_result = is_f2.get_ft_result()
+is_f2_ft_result = is_f2.get_ft_results()
 print('is_f2 ft result', is_f2_ft_result)
 
 '''
@@ -289,7 +293,7 @@ obj_pr = {
 }
 
 pr = Param(obj_pr)
-pr_ft_result = pr.get_ft_result()
+pr_ft_result = pr.get_ft_results()
 print('pr ft result', pr_ft_result)
 
 '''
@@ -338,7 +342,7 @@ obj_ir = {
 }
 
 ir = Param(obj_ir)
-ir_ft_result = ir.get_ft_result()
+ir_ft_result = ir.get_ft_results()
 print('ir_ft_result', ir_ft_result)
 
 '''
@@ -408,7 +412,7 @@ obj_u = {
 }
 
 u = Param(obj_u)
-u_ft_result = u.get_ft_result()
+u_ft_result = u.get_ft_results()
 print('u_ft_result', u_ft_result)
 
 '''
@@ -467,7 +471,7 @@ obj_ta = {
 }
 
 ta = Param(obj_ta)
-ta_ft_result = ta.get_ft_result()
+ta_ft_result = ta.get_ft_results()
 print('ta_ft_result', ta_ft_result)
 
 # '''
@@ -523,7 +527,7 @@ obj_tp_f1 = {
 }
 
 tp_f1 = Param(obj_tp_f1)
-tp_f1_ft_result = tp_f1.get_ft_result()
+tp_f1_ft_result = tp_f1.get_ft_results()
 print('tp_f1_ft_result', tp_f1_ft_result)
 
 # '''
@@ -582,7 +586,7 @@ obj_tp_f2 = {
 }
 
 tp_f2 = Param(obj_tp_f2)
-tp_f2_ft_result = tp_f2.get_ft_result()
+tp_f2_ft_result = tp_f2.get_ft_results()
 print('tp_f2_ft_result', tp_f2_ft_result)
 
 # '''
@@ -637,5 +641,5 @@ obj_tp_f3 = {
 }
 
 tp_f3 = Param(obj_tp_f3)
-tp_f3_ft_result = tp_f3.get_ft_result()
+tp_f3_ft_result = tp_f3.get_ft_results()
 print('tp_f3_ft_result', tp_f3_ft_result)
