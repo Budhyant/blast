@@ -7,16 +7,24 @@ class Param:
     ft_result_air = None
     ft_result_surface = None
 
-    def __init__(self, sc_dist, const_u_air, const_u_surface, log_scale_dist, list_slope_u_air, list_slope_u_surface, limits, const_y):
-        self.sc_dist = sc_dist
-        self.u_air = const_u_air[0] + const_u_air[1] * log_scale_dist
-        self.u_surface = const_u_surface[0] + const_u_surface[1] * log_scale_dist
+    sc_dist = 0
+    const_u_air = 0
+    const_u_surface = 0
+    log_scale_dist = 0
+    list_slope_u = []
+    limits = []
+    const_y = []
+
+    def __init__(self, obj):
+        self.sc_dist = obj['sc_dist']
+        self.u_air = obj['const_u_air'][0] + obj['const_u_air'][1] * obj['log_sc_dist']
+        self.u_surface = obj['const_u_surface'][0] + obj['const_u_surface'][1] * obj['log_sc_dist']
         self.list_slope_u = [
-            list_slope_u_air,
-            list_slope_u_surface
+            obj['list_slope_u_air'],
+            obj['list_slope_u_surface']
         ]
-        self.limits = limits
-        self.const_y = const_y
+        self.limits = obj['limits']
+        self.const_y = obj['const_y']
 
     def get_fn_u_pow(self, slope, power, type_idx):
         if type_idx == 0:
@@ -64,10 +72,8 @@ class Param:
             else:
                 application_up_rng_filter = y
             checksum = application_low_rng_filter + application_up_rng_filter
-            print('checksum', checksum)
             if checksum == 2 * y:
                 storage_ft_result.append(y)
             else:
                 storage_ft_result.append(0)
-        print('ft_result', storage_ft_result)
         return storage_ft_result
