@@ -471,127 +471,171 @@ ta_ft_result = ta.get_ft_result()
 print('ta_ft_result', ta_ft_result)
 
 # '''
-#     get U
+#     get T+ F(I)
 # '''
 
-# obj_u = {
-#     'sc_dist': sc_dist,
-#     'log_sc_dist': log_sc_dist,
-#     'const_u_air': [
+obj_tp_f1 = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        2.26367268496,
+        5.11588554305
+    ],
+    'const_u_surface': [
+        1.92946154068,
+        5.25099193925
+    ],
 
-#     ],
-#     'const_u_surface': [
+    'list_slope_u_air': [
+        0.164953518069,
+        0.127788499497,
+        0.00291430135946,
+        0.0018795744922,
+        0.017341396254,
+        0.0026973975804,
+        -0.00361976502798,
+        -0.00100926577934
+    ],
 
-#     ],
+    'list_slope_u_surface': [
+        0.130143717675,
+        0.134872511954,
+        0.0391574276906,
+        -0.00475933664702,
+        -0.00428144598008
+    ],
 
-#     'list_slope_u_air': [
+    'const_y': [
+        -0.686608550419,
+        -0.614227603559
+    ],
 
-#     ],
+    'limits': [
+        {
+            'lower_limit': 0.147,
+            'upper_limit': 0.888
+        },
+        {
+            'lower_limit': 0.178,
+            'upper_limit': 1.01
+        }
+    ]
+}
 
-#     'list_slope_u_surface': [
-
-#     ],
-
-#     'const_y': [
-
-#     ],
-
-#     'limits': [
-#         {
-#             'lower_limit': 0.0531,
-#             'upper_limit': 40
-#         },
-#         {
-#             'lower_limit': 0.0674,
-#             'upper_limit': 40
-#         }
-#     ]
-# }
-
-# u = Param(obj_u)
-# u_ft_result = u.get_ft_result()
-# print('u_ft_result', u_ft_result)
-
-# '''
-#     get U
-# '''
-
-# obj_u = {
-#     'sc_dist': sc_dist,
-#     'log_sc_dist': log_sc_dist,
-#     'const_u_air': [
-
-#     ],
-#     'const_u_surface': [
-
-#     ],
-
-#     'list_slope_u_air': [
-
-#     ],
-
-#     'list_slope_u_surface': [
-
-#     ],
-
-#     'const_y': [
-
-#     ],
-
-#     'limits': [
-#         {
-#             'lower_limit': 0.0531,
-#             'upper_limit': 40
-#         },
-#         {
-#             'lower_limit': 0.0674,
-#             'upper_limit': 40
-#         }
-#     ]
-# }
-
-# u = Param(obj_u)
-# u_ft_result = u.get_ft_result()
-# print('u_ft_result', u_ft_result)
+tp_f1 = Param(obj_tp_f1)
+tp_f1_ft_result = tp_f1.get_ft_result()
+print('tp_f1_ft_result', tp_f1_ft_result)
 
 # '''
-#     get U
+#     get T+ F(II)
 # '''
 
-# obj_u = {
-#     'sc_dist': sc_dist,
-#     'log_sc_dist': log_sc_dist,
-#     'const_u_air': [
+obj_tp_f2 = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        -1.33361206714,
+        9.2996288611
+    ],
+    'const_u_surface': [
+        -2.12492525216,
+        9.2996288611
+    ],
 
-#     ],
-#     'const_u_surface': [
+    'list_slope_u_air': [
+        -0.0297944268969,
+        0.0306329542941,
+        0.018340557407,
+        -0.0173964666286,
+        -0.00106321963576,
+        0.0056206003128,
+        0.0001618217499,
+        -0.0006860188944
+    ],
 
-#     ],
+    'list_slope_u_surface': [
+        -0.0297944268976,
+        0.030632954288,
+        0.0183405574086,
+        -0.0173964666211,
+        -0.00106321963633,
+        0.00562060030977,
+        0.0001618217499,
+        -0.0006860188944
+    ],
 
-#     'list_slope_u_air': [
+    'const_y': [
+        0.23031841078,
+        0.315409245784
+    ],
 
-#     ],
+    'limits': [
+        {
+            'lower_limit': 0.888,
+            'upper_limit': 2.28
+        },
+        {
+            'lower_limit': 1.01,
+            'upper_limit': 2.78
+        }
+    ]
+}
 
-#     'list_slope_u_surface': [
+tp_f2 = Param(obj_tp_f2)
+tp_f2_ft_result = tp_f2.get_ft_result()
+print('tp_f2_ft_result', tp_f2_ft_result)
 
-#     ],
+# '''
+#     get T+ F(III)
+# '''
 
-#     'const_y': [
+obj_tp_f3 = {
+    'sc_dist': sc_dist,
+    'log_sc_dist': log_sc_dist,
+    'const_u_air': [
+        -3.13005805346,
+        3.1524725364
+    ],
+    'const_u_surface': [
+        -3.53626218091,
+        3.46349745571
+    ],
 
-#     ],
+    'list_slope_u_air': [
+        0.0967031995552,
+        -0.00801302059667,
+        0.00482705779732,
+        0.00187587272287,
+        0.00246738509321,
+        -0.000841116668,
+        0.0006193291052
+    ],
 
-#     'limits': [
-#         {
-#             'lower_limit': 0.0531,
-#             'upper_limit': 40
-#         },
-#         {
-#             'lower_limit': 0.0674,
-#             'upper_limit': 40
-#         }
-#     ]
-# }
+    'list_slope_u_surface': [
+        0.0933035304009,
+        -0.0005849420883,
+        0.0022688499501,
+        -0.00295908591505,
+        0.00148029868929
+    ],
 
-# u = Param(obj_u)
-# u_ft_result = u.get_ft_result()
-# print('u_ft_result', u_ft_result)
+    'const_y': [
+        0.621036276475,
+        0.686906642409
+    ],
+
+    'limits': [
+        {
+            'lower_limit': 2.28,
+            'upper_limit': 40
+        },
+        {
+            'lower_limit': 2.78,
+            'upper_limit': 40
+        }
+    ]
+}
+
+tp_f3 = Param(obj_tp_f3)
+tp_f3_ft_result = tp_f3.get_ft_result()
+print('tp_f3_ft_result', tp_f3_ft_result)
