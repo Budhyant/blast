@@ -51,23 +51,23 @@ class Param:
     def get_ft_result(self):
         ys = self.get_y()
         limits = self.limits
-        print('limits', limits)
         sc_dist = self.sc_dist
-
+        storage_ft_result = []
         for idx, y in enumerate(ys):
             limit = limits[idx]
-            print('limit', limit, idx)
-            if sc_dist < limit['lower_limit'] or sc_dist > limit['upper_limit']:
-                if idx == 0:
-                    self.ft_result_air = 0
-                else:
-                    self.ft_result_surface = 0
+            if sc_dist < limit['lower_limit']:
+                application_low_rng_filter = 0
             else:
-                if idx == 0:
-                    self.ft_result_air = y
-                else:
-                    self.ft_result_surface = y
-        return [
-            self.ft_result_air,
-            self.ft_result_surface
-        ]
+                application_low_rng_filter = y
+            if sc_dist > limit['upper_limit']:
+                application_up_rng_filter = 0
+            else:
+                application_up_rng_filter = y
+            checksum = application_low_rng_filter + application_up_rng_filter
+            print('checksum', checksum)
+            if checksum == 2 * y:
+                storage_ft_result.append(y)
+            else:
+                storage_ft_result.append(0)
+        print('ft_result', storage_ft_result)
+        return storage_ft_result
