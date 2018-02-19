@@ -103,14 +103,14 @@ ps = Param(obj_ps)
 # print('Y for air and surface', ps_ys)
 ps_ft_results = ps.get_ft_results()
 print('ps ft result', ps_ft_results)
-alog_ys = ps.get_alog_y()
-print('alog_ys', alog_ys)
+ps_alog_ys = ps.get_alog_y()
+print('ps_alog_ys', ps_alog_ys)
 
 for idx, ft_result in enumerate(ps_ft_results):
     if ft_result == 0:
         raise SystemExit("filtered result: 0")
     else:
-        p_s = alog_ys[idx]
+        p_s = ps_alog_ys[idx]
         if idx == 0:
             print('Ps(air): ', p_s)
         else:
@@ -166,15 +166,8 @@ obj_is_f1 = {
 is_f1 = Param(obj_is_f1)
 is_f1_ft_result = is_f1.get_ft_results()
 print('is_f1 ft result', is_f1_ft_result)
-
-
-# ps_anti_log = None
-# for y in ps_ys:
-#     if y == 0:
-#         raise SystemExit("filtered result: 0")
-#     else:
-#         p_s = math.pow(10, y)
-#         print('Ps: ', p_s)
+is_f1_alog_ys = is_f1.get_alog_y()
+print('is_f1_alog_ys', is_f1_alog_ys)
 
 '''
     get Is F(II) for Air
@@ -232,6 +225,21 @@ obj_is_f2 = {
 is_f2 = Param(obj_is_f2)
 is_f2_ft_result = is_f2.get_ft_results()
 print('is_f2 ft result', is_f2_ft_result)
+is_f2_alog_ys = is_f2.get_alog_y()
+print('is_f2_alog_ys', is_f2_alog_ys)
+
+sum_is_f = []
+idx_cnt = 0
+i_s = []
+while idx_cnt < 2:
+    sum_is_f.append(is_f1_alog_ys[idx_cnt] + is_f2_alog_ys[idx_cnt])
+    if sum_is_f[idx_cnt] == 0:
+        raise SystemExit("ERROR: sum of Is anti log y are 0")
+    else:
+        iss = sum_is_f[idx_cnt] * math.pow(TNT_EQ_WT, 0.3333)
+        i_s.append(iss)
+    idx_cnt = idx_cnt + 1
+print('Is', i_s)
 
 '''
     get Pr
