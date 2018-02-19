@@ -13,24 +13,31 @@ while True:
                             "5. Compund B (60% RDX 40% TNT)\n6. Semtex\n7. 60% Nitroglycerin dynamite\n\n"
                             "your selected type: ")
     if TNT_EQ_FigInput == '1':
+        print('\nyou have selected TNT')
         TNT_EQ_Fig = 1
         break
     elif TNT_EQ_FigInput == '2':
+        print('\nyou have selected RDX')
         TNT_EQ_Fig = 1.185
         break
     elif TNT_EQ_FigInput == '3':
+        print('\nyou have selected HMX')
         TNT_EQ_Fig = 1.256
         break
     elif TNT_EQ_FigInput == '4':
+        print('\nyou have selected Nitroglycerin (liquid)')
         TNT_EQ_Fig = 1.481
         break
     elif TNT_EQ_FigInput == '5':
+        print('\nyou have selected TNCompund BT')
         TNT_EQ_Fig = 1.148
         break
     elif TNT_EQ_FigInput == '6':
+        print('\nyou have selected Semtex')
         TNT_EQ_Fig = 1.25
         break
     elif TNT_EQ_FigInput == '7':
+        print('\nyou have selected 60% Nitroglycerin dynamite')
         TNT_EQ_Fig = 0.6
         break
     else:
@@ -39,6 +46,9 @@ while True:
 TNT_EQ_WT = neQty * TNT_EQ_Fig
 sc_dist = soDist / math.pow(TNT_EQ_WT, 0.3333)
 log_sc_dist = math.log(sc_dist, 10)
+print('TNT equivalent wt [kg]: ', TNT_EQ_WT)
+print('scaled distance [m]: ', soDist)
+print('\n')
 
 
 """
@@ -102,9 +112,9 @@ ps = Param(obj_ps)
 # ps_ys = ps.get_y()
 # print('Y for air and surface', ps_ys)
 ps_ft_results = ps.get_ft_results()
-print('ps ft result', ps_ft_results)
+# print('ps ft result', ps_ft_results)
 ps_alog_ys = ps.get_alog_y()
-print('ps_alog_ys', ps_alog_ys)
+# print('ps_alog_ys', ps_alog_ys)
 
 for idx, ft_result in enumerate(ps_ft_results):
     if ft_result == 0:
@@ -165,9 +175,9 @@ obj_is_f1 = {
 
 is_f1 = Param(obj_is_f1)
 is_f1_ft_result = is_f1.get_ft_results()
-print('is_f1 ft result', is_f1_ft_result)
+# print('is_f1 ft result', is_f1_ft_result)
 is_f1_alog_ys = is_f1.get_alog_y()
-print('is_f1_alog_ys', is_f1_alog_ys)
+# print('is_f1_alog_ys', is_f1_alog_ys)
 
 '''
     get Is F(II) for Air
@@ -224,9 +234,9 @@ obj_is_f2 = {
 
 is_f2 = Param(obj_is_f2)
 is_f2_ft_result = is_f2.get_ft_results()
-print('is_f2 ft result', is_f2_ft_result)
+# print('is_f2 ft result', is_f2_ft_result)
 is_f2_alog_ys = is_f2.get_alog_y()
-print('is_f2_alog_ys', is_f2_alog_ys)
+# print('is_f2_alog_ys', is_f2_alog_ys)
 
 sum_is_f = []
 idx_cnt = 0
@@ -302,8 +312,19 @@ obj_pr = {
 
 pr = Param(obj_pr)
 pr_ft_result = pr.get_ft_results()
-print('pr ft result', pr_ft_result)
+# print('pr ft result', pr_ft_result)
+pr_alog_ys = pr.get_alog_y()
+# print('pr_alog_ys', pr_alog_ys)
 
+for idx, ft_result in enumerate(pr_alog_ys):
+    if ft_result == 0:
+        raise SystemExit("filtered result: 0")
+    else:
+        p_r = pr_alog_ys[idx]
+        if idx == 0:
+            print('Pr(air): ', p_r)
+        else:
+            print('Pr(surface)', p_r)
 '''
     get Ir
 '''
@@ -351,8 +372,19 @@ obj_ir = {
 
 ir = Param(obj_ir)
 ir_ft_result = ir.get_ft_results()
-print('ir_ft_result', ir_ft_result)
+# print('ir_ft_result', ir_ft_result)
+ir_alog_ys = ir.get_alog_y()
+# print('ir_alog_ys', ir_alog_ys)
 
+for idx, ft_result in enumerate(ir_alog_ys):
+    if ft_result == 0:
+        raise SystemExit("filtered result: 0")
+    else:
+        i_r = ir_alog_ys[idx] * math.pow(TNT_EQ_WT, 0.3333)
+        if idx == 0:
+            print('Ir(air): ', i_r)
+        else:
+            print('Ir(surface)', i_r)
 '''
     get U
 '''
@@ -421,8 +453,19 @@ obj_u = {
 
 u = Param(obj_u)
 u_ft_result = u.get_ft_results()
-print('u_ft_result', u_ft_result)
+# print('u_ft_result', u_ft_result)
+u_alog_ys = u.get_alog_y()
+# print('u_alog_ys', u_alog_ys)
 
+for idx, ft_result in enumerate(u_alog_ys):
+    if ft_result == 0:
+        raise SystemExit("filtered result: 0")
+    else:
+        u = u_alog_ys[idx]
+        if idx == 0:
+            print('U(air): ', u)
+        else:
+            print('U(surface)', u)
 '''
     get Ta
 '''
@@ -480,7 +523,19 @@ obj_ta = {
 
 ta = Param(obj_ta)
 ta_ft_result = ta.get_ft_results()
-print('ta_ft_result', ta_ft_result)
+# print('ta_ft_result', ta_ft_result)
+ta_alog_ys = ta.get_alog_y()
+# print('ta_alog_ys', ta_alog_ys)
+
+for idx, ft_result in enumerate(ta_alog_ys):
+    if ft_result == 0:
+        raise SystemExit("filtered result: 0")
+    else:
+        ta = ta_alog_ys[idx] * math.pow(TNT_EQ_WT, 0.3333)
+        if idx == 0:
+            print('ta(air): ', ta)
+        else:
+            print('ta(surface)', ta)
 
 # '''
 #     get T+ F(I)
@@ -536,7 +591,9 @@ obj_tp_f1 = {
 
 tp_f1 = Param(obj_tp_f1)
 tp_f1_ft_result = tp_f1.get_ft_results()
-print('tp_f1_ft_result', tp_f1_ft_result)
+# print('tp_f1_ft_result', tp_f1_ft_result)
+tp_f1_alog_ys = tp_f1.get_alog_y()
+# print('tp_f1_alog_ys', tp_f1_alog_ys)
 
 # '''
 #     get T+ F(II)
@@ -595,7 +652,9 @@ obj_tp_f2 = {
 
 tp_f2 = Param(obj_tp_f2)
 tp_f2_ft_result = tp_f2.get_ft_results()
-print('tp_f2_ft_result', tp_f2_ft_result)
+# print('tp_f2_ft_result', tp_f2_ft_result)
+tp_f2_alog_ys = tp_f2.get_alog_y()
+# print('tp_f2_alog_ys', tp_f2_alog_ys)
 
 # '''
 #     get T+ F(III)
@@ -650,4 +709,20 @@ obj_tp_f3 = {
 
 tp_f3 = Param(obj_tp_f3)
 tp_f3_ft_result = tp_f3.get_ft_results()
-print('tp_f3_ft_result', tp_f3_ft_result)
+# print('tp_f3_ft_result', tp_f3_ft_result)
+tp_f3_alog_ys = tp_f3.get_alog_y()
+# print('tp_f3_alog_ys', tp_f3_alog_ys)
+
+sum_tp_f = []
+idx_cnt = 0
+t_p = []
+while idx_cnt < 2:
+    sum_tp_f.append(tp_f1_alog_ys[idx_cnt] + tp_f2_alog_ys[idx_cnt] + tp_f3_alog_ys[idx_cnt])
+    if sum_tp_f[idx_cnt] == 0:
+        raise SystemExit("ERROR: sum of Is anti log y are 0")
+    else:
+        tps = sum_tp_f[idx_cnt] * math.pow(TNT_EQ_WT, 0.3333)
+        tps = round(tps, 3)
+        t_p.append(tps)
+    idx_cnt = idx_cnt + 1
+print('Tp', t_p)
