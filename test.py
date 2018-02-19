@@ -121,6 +121,7 @@ for idx, ft_result in enumerate(ps_ft_results):
         raise SystemExit("filtered result: 0")
     else:
         p_s = ps_alog_ys[idx]
+        p_s = round(p_s, 3)
         if idx == 0:
             print('Ps(air): ', p_s)
         else:
@@ -247,9 +248,13 @@ while idx_cnt < 2:
         raise SystemExit("ERROR: sum of Is anti log y are 0")
     else:
         iss = sum_is_f[idx_cnt] * math.pow(TNT_EQ_WT, 0.3333)
+        if idx_cnt == 0:
+            print('Is (air): ', round(iss, 3))
+        else:
+            print('Is (surface): ', round(iss, 3))
         i_s.append(iss)
     idx_cnt = idx_cnt + 1
-print('Is', i_s)
+# print('Is', i_s)
 
 '''
     get Pr
@@ -321,6 +326,7 @@ for idx, ft_result in enumerate(pr_alog_ys):
         raise SystemExit("filtered result: 0")
     else:
         p_r = pr_alog_ys[idx]
+        p_r = round(p_r, 3)
         if idx == 0:
             print('Pr(air): ', p_r)
         else:
@@ -381,6 +387,7 @@ for idx, ft_result in enumerate(ir_alog_ys):
         raise SystemExit("filtered result: 0")
     else:
         i_r = ir_alog_ys[idx] * math.pow(TNT_EQ_WT, 0.3333)
+        i_r = round(i_r, 3)
         if idx == 0:
             print('Ir(air): ', i_r)
         else:
@@ -462,6 +469,7 @@ for idx, ft_result in enumerate(u_alog_ys):
         raise SystemExit("filtered result: 0")
     else:
         u = u_alog_ys[idx]
+        u = round(u, 3)
         if idx == 0:
             print('U(air): ', u)
         else:
@@ -532,6 +540,7 @@ for idx, ft_result in enumerate(ta_alog_ys):
         raise SystemExit("filtered result: 0")
     else:
         ta = ta_alog_ys[idx] * math.pow(TNT_EQ_WT, 0.3333)
+        ta = round(ta, 3)
         if idx == 0:
             print('ta(air): ', ta)
         else:
@@ -723,6 +732,10 @@ while idx_cnt < 2:
     else:
         tps = sum_tp_f[idx_cnt] * math.pow(TNT_EQ_WT, 0.3333)
         tps = round(tps, 3)
+        if idx_cnt == 0:
+            print('T+ F (air): ', round(tps, 3))
+        else:
+            print('T+ F (surface): ', round(tps, 3))
         t_p.append(tps)
     idx_cnt = idx_cnt + 1
-print('Tp', t_p)
+# print('Tp', t_p)
