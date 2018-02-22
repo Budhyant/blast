@@ -4,53 +4,79 @@ from param import Param
 # neQuantity = input("please enter the net explosive quantity (Q) [kg]: ")
 
 # temp initial value
-soDist = 25
-neQty = 25
-TNT_EQ_FIGURE = 1
-TNT_EQ_Fig = 1
+# soDist = 25
+# neQty = 25
+# TNT_EQ_Fig = 1
 
-# TNT_EQ_Fig = None
-# while True:
-#     TNT_EQ_FigInput = input("select explosive type:\n1. TNT\n2.RDX (Cyclonite)\n3. HMX \n4. Nitroglycerin (liquid)\n"
-#                             "5. Compund B (60% RDX 40% TNT)\n6. Semtex\n7. 60% Nitroglycerin dynamite\n\n"
-#                             "your selected type: ")
-#     if TNT_EQ_FigInput == '1':
-#         print('\nyou have selected TNT')
-#         TNT_EQ_Fig = 1
-#         break
-#     elif TNT_EQ_FigInput == '2':
-#         print('\nyou have selected RDX')
-#         TNT_EQ_Fig = 1.185
-#         break
-#     elif TNT_EQ_FigInput == '3':
-#         print('\nyou have selected HMX')
-#         TNT_EQ_Fig = 1.256
-#         break
-#     elif TNT_EQ_FigInput == '4':
-#         print('\nyou have selected Nitroglycerin (liquid)')
-#         TNT_EQ_Fig = 1.481
-#         break
-#     elif TNT_EQ_FigInput == '5':
-#         print('\nyou have selected TNCompund BT')
-#         TNT_EQ_Fig = 1.148
-#         break
-#     elif TNT_EQ_FigInput == '6':
-#         print('\nyou have selected Semtex')
-#         TNT_EQ_Fig = 1.25
-#         break
-#     elif TNT_EQ_FigInput == '7':
-#         print('\nyou have selected 60% Nitroglycerin dynamite')
-#         TNT_EQ_Fig = 0.6
-#         break
-#     else:
-#         raise SystemExit("you should select from the options")
+so_dist = None
+ne_qty = None
+TNT_EQ_Fig = None
+
+while True:
+    try:
+        so_dist = int(input(
+            "Actual Stand-off Distance (D)[m]: "
+        ))
+    except ValueError:
+        print("please type integer value only.")
+        continue
+    else:
+        break
+
+while True:
+    try:
+        ne_qty = int(input(
+            "Net Explosive Quantity (Q)[kg]: "
+        ))
+    except ValueError:
+        print("please type integer value only.")
+        continue
+    else:
+        break
+
+while True:
+    TNT_EQ_FigInput = input(
+        "select explosive type:\n1. TNT\n2.RDX (Cyclonite)\n3. HMX \n4. Nitroglycerin (liquid)\n"
+                            "5. Compund B (60% RDX 40% TNT)\n6. Semtex\n7. 60% Nitroglycerin dynamite\n\n"
+                            "your selected type: "
+                            )
+    if TNT_EQ_FigInput == '1':
+        print('\nyou have selected TNT')
+        TNT_EQ_Fig = 1
+        break
+    elif TNT_EQ_FigInput == '2':
+        print('\nyou have selected RDX')
+        TNT_EQ_Fig = 1.185
+        break
+    elif TNT_EQ_FigInput == '3':
+        print('\nyou have selected HMX')
+        TNT_EQ_Fig = 1.256
+        break
+    elif TNT_EQ_FigInput == '4':
+        print('\nyou have selected Nitroglycerin (liquid)')
+        TNT_EQ_Fig = 1.481
+        break
+    elif TNT_EQ_FigInput == '5':
+        print('\nyou have selected TNCompund BT')
+        TNT_EQ_Fig = 1.148
+        break
+    elif TNT_EQ_FigInput == '6':
+        print('\nyou have selected Semtex')
+        TNT_EQ_Fig = 1.25
+        break
+    elif TNT_EQ_FigInput == '7':
+        print('\nyou have selected 60% Nitroglycerin dynamite')
+        TNT_EQ_Fig = 0.6
+        break
+    else:
+        raise SystemExit("you should select from the options")
 
 
-TNT_EQ_WT = neQty * TNT_EQ_Fig
-sc_dist = soDist / math.pow(TNT_EQ_WT, 0.3333)
+TNT_EQ_WT = ne_qty * TNT_EQ_Fig
+sc_dist = so_dist / math.pow(TNT_EQ_WT, 0.3333)
 log_sc_dist = math.log(sc_dist, 10)
 print('TNT equivalent wt [kg]: ', TNT_EQ_WT)
-print('scaled distance [m]: ', soDist)
+print('scaled distance [m]: ', so_dist)
 print('\n')
 
 
