@@ -17,10 +17,11 @@ class Param:
     limits = []
     const_y = []
 
-    def __init__(self, obj):
-        self.sc_dist = obj['sc_dist']
-        self.u_air = obj['const_u_air'][0] + obj['const_u_air'][1] * obj['log_sc_dist']
-        self.u_surface = obj['const_u_surface'][0] + obj['const_u_surface'][1] * obj['log_sc_dist']
+    def __init__(self, obj, sc_dist):
+        self.sc_dist = sc_dist
+        self.log_sc_dist = math.log(self.sc_dist, 10)
+        self.u_air = obj['const_u_air'][0] + obj['const_u_air'][1] * self.log_sc_dist
+        self.u_surface = obj['const_u_surface'][0] + obj['const_u_surface'][1] * self.log_sc_dist
         self.list_slope_u = [
             obj['list_slope_u_air'],
             obj['list_slope_u_surface']
