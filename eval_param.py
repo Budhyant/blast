@@ -674,7 +674,6 @@ class Evaluate:
 
     def get_tc(self):
         tc_arr = []
-        print('self.u_arr', self.u_arr)
         for u in self.u_arr:
             tc = 3 * self.s / u
             tc_arr.append(round(tc, 3))
