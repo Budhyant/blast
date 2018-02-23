@@ -18,7 +18,7 @@ class Blast(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         # tk.Tk.iconbitmap(self, default="")
-        tk.Tk.wm_title(self, "AIRBLAST PARAMETERS")
+        tk.Tk.wm_title(self, "Blast Load Calculator")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -40,7 +40,7 @@ class Main(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="AIRBLAST PARAMETERS", font=LARGE_FONT, fg="blue")
+        label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
         label.grid(row=0, column=0, columnspan=1, padx=10, pady=30)
 
