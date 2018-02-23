@@ -162,7 +162,7 @@ class Landing(tk.Frame):
         canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
         canvas2._tkcanvas.grid(row=8, rowspan=15, column=2)
 
-        self.show_outputs('Air')
+        self.show_outputs('Air', points)
 
 
     def plot_sfc(self, so_dist, ne_qty, TNT_EQ_FIG):
@@ -192,15 +192,15 @@ class Landing(tk.Frame):
         canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
         canvas2._tkcanvas.grid(row=78, rowspan=15, column=2)
 
-        self.show_outputs('Air')
+        self.show_outputs('Surface', points)
 
 
-    def show_outputs(self, type_txt):
-        label_output = tk.Label(self, text="OUTPUTS", font=MID_FONT, fg="blue")
+    def show_outputs(self, type_txt, points):
+        label_output = tk.Label(self, text="OUTPUTS", fg="blue")
         label_output_type = tk.Label(self, text=type_txt)
         label_output_1 = tk.Label(self, text="Peak Incident Pressure(Ps) [kPa]")
         label_output_2 = tk.Label(self, text="Incident Impulse(Is) [kPa.msec]")
-        label_output_3 = tk.Label(self, text="Peak Reflected Pressure(Ps) [kPa]")
+        label_output_3 = tk.Label(self, text="Peak Reflected Pressure(Pr) [kPa]")
         label_output_4 = tk.Label(self, text="Reflected Impulse(Ir) [kPa.msec]")
         label_output_5 = tk.Label(self, text="Shock Front Velocity(U) [m/msec]")
         label_output_6 = tk.Label(self, text="Arrival Time(Ta) [msec]")
@@ -215,6 +215,27 @@ class Landing(tk.Frame):
         label_output_5.grid(row=13, column=0, pady=5)
         label_output_6.grid(row=14, column=0, pady=5)
         label_output_7.grid(row=15, column=0, pady=5)
+
+        if type_txt == 'Air':
+            outputs = points['air']['outputs']
+        else:
+            outputs = points['surface']['outputs']
+
+        label_output_val_1 = tk.Label(self, text=outputs['ps'])
+        label_output_val_2 = tk.Label(self, text=outputs['is'])
+        label_output_val_3 = tk.Label(self, text=outputs['pr'])
+        label_output_val_4 = tk.Label(self, text=outputs['ir'])
+        label_output_val_5 = tk.Label(self, text=outputs['u'])
+        label_output_val_6 = tk.Label(self, text=outputs['ta'])
+        label_output_val_7 = tk.Label(self, text=outputs['td'])
+        label_output_val_1.grid(row=9, column=1, pady=5)
+        label_output_val_2.grid(row=10, column=1, pady=5)
+        label_output_val_3.grid(row=11, column=1, pady=5)
+        label_output_val_4.grid(row=12, column=1, pady=5)
+        label_output_val_5.grid(row=13, column=1, pady=5)
+        label_output_val_6.grid(row=14, column=1, pady=5)
+        label_output_val_7.grid(row=15, column=1, pady=5)
+
 
 app = Blast()
 app.mainloop()

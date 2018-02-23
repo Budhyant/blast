@@ -746,6 +746,15 @@ class Evaluate:
                 "equivalent": {
                     "x": [0, self.te_arr[0]],
                     "y": [self.pr_arr[0], 0]
+                },
+                "outputs": {
+                    "ps": self.ps_arr[0],
+                    "is": self.is_arr[0],
+                    "pr": self.pr_arr[0],
+                    "ir": self.ir_arr[0],
+                    "u": self.u_arr[0],
+                    "ta": self.ta_arr[0],
+                    "td": self.td_arr[0]
                 }
             },
             "surface": {
@@ -762,6 +771,15 @@ class Evaluate:
                 "equivalent": {
                     "x": [0, self.te_arr[1]],
                     "y": [self.pr_arr[1], 0]
+                },
+                "outputs": {
+                    "ps": self.ps_arr[1],
+                    "is": self.is_arr[1],
+                    "pr": self.pr_arr[1],
+                    "ir": self.ir_arr[1],
+                    "u": self.u_arr[1],
+                    "ta": self.ta_arr[1],
+                    "td": self.td_arr[1]
                 }
             }
         }
