@@ -119,7 +119,7 @@ class Main(tk.Frame):
                 label_err.grid(row=5, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
-        ttk.Style().configure('white/gray.TButton', foreground='black', background='gray')
+        ttk.Style().configure('white/gray.TButton', foreground='black', background='blue')
         btn_calc = ttk.Button(self, text="calculate", style='white/gray.TButton', command=callback)
         btn_calc.grid(row=5, column=0, padx=10, pady=20, sticky="E")
 
@@ -142,13 +142,24 @@ class Main(tk.Frame):
         pt_air_fr_ps = pt_air_fr['ps']
         pt_air_eq = pt_air['equivalent']
 
+        pr_annotate = points['air']['outputs']['pr']
+        ps_annotate = points['air']['outputs']['ps']
+        td_annotate = points['air']['outputs']['td']
+        tc_annotate = points['air']['outputs']['tc']
+        te_annotate = points['air']['outputs']['te']
+
         f1 = Figure(figsize=(4,4), dpi=100)
         a = f1.add_subplot(111)
         a.set_title('Front-Wall Loading')
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
-        # a.annotate('Pr', xy=(0.9, 0.9))
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
+
+        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate - 1))
+        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.05, ps_annotate - 3))
+        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.1))
+        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.05))
+
         a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
 
@@ -156,6 +167,11 @@ class Main(tk.Frame):
         b = f2.add_subplot(111)
         b.set_title('Equivalent Loading')
         b.plot(pt_air_eq['x'], pt_air_eq['y'])
+
+        b.annotate('Pr: ' + str(pr_annotate), xy=(te_annotate*0.05, pr_annotate*0.97))
+        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.7, pr_annotate*0.03))
+
+
         b.grid(linestyle='-')
         canvas2 = FigureCanvasTkAgg(f2, self)
 
@@ -177,17 +193,33 @@ class Main(tk.Frame):
         pt_sfc_fr_ps = pt_sfc_fr['ps']
         pt_sfc_eq = pt_sfc['equivalent']
 
+        pr_annotate = points['air']['outputs']['pr']
+        ps_annotate = points['air']['outputs']['ps']
+        td_annotate = points['air']['outputs']['td']
+        tc_annotate = points['air']['outputs']['tc']
+        te_annotate = points['air']['outputs']['te']
+
         f1 = Figure(figsize=(4,4), dpi=100)
         a = f1.add_subplot(111)
         a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
         a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
+
+        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate - 1))
+        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.05, ps_annotate - 3))
+        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.1))
+        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.05))
+
         a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
         b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
+
+        b.annotate('Pr: ' + str(pr_annotate), xy=(te_annotate*0.05, pr_annotate*0.97))
+        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.7, pr_annotate*0.03))
+
         b.grid(linestyle='-')
         canvas2 = FigureCanvasTkAgg(f2, self)
 

@@ -754,7 +754,9 @@ class Evaluate:
                     "ir": self.ir_arr[0],
                     "u": self.u_arr[0],
                     "ta": self.ta_arr[0],
-                    "td": self.td_arr[0]
+                    "td": self.td_arr[0],
+                    "tc": self.tc_arr[0],
+                    "te": self.te_arr[0]
                 }
             },
             "surface": {
@@ -779,7 +781,9 @@ class Evaluate:
                     "ir": self.ir_arr[1],
                     "u": self.u_arr[1],
                     "ta": self.ta_arr[1],
-                    "td": self.td_arr[1]
+                    "td": self.td_arr[1],
+                    "tc": self.tc_arr[1],
+                    "te": self.te_arr[1]
                 }
             }
         }
