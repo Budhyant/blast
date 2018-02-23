@@ -1,3 +1,4 @@
+print('Blast Load Calculator is loading ...')
 from eval_param import Evaluate
 import matplotlib
 matplotlib.use("TkAgg")
@@ -42,7 +43,7 @@ class Main(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
-        label.grid(row=0, column=0, columnspan=1, padx=10, pady=30)
+        label.grid(row=0, column=0, columnspan=3, padx=10, pady=30)
 
         label_input = tk.Label(self, text="INPUTS", fg="blue")
         label_1 = tk.Label(self, text="Actual Stand-off Distance (D)[m]")
@@ -54,24 +55,24 @@ class Main(tk.Frame):
         label_7 = tk.Label(self, text="select your calc type")
 
         label_input.grid(row=1, column=0, columnspan=2, pady=20)
-        label_1.grid(row=2, column=0, pady=10)
-        label_2.grid(row=3, column=0, pady=10)
-        label_3.grid(row=4, column=0, pady=10)
-        label_4.grid(row=5, column=0, pady=10)
-        label_5.grid(row=6, column=0, pady=10)
-        label_6.grid(row=7, column=0, pady=10)
-        label_7.grid(row=8, column=0, pady=10)
+        label_1.grid(row=2, column=0, pady=14)
+        label_2.grid(row=3, column=0, pady=14)
+        label_3.grid(row=4, column=0, pady=14)
+        label_4.grid(row=5, column=0, pady=14)
+        label_5.grid(row=6, column=0, pady=14)
+        label_6.grid(row=7, column=0, pady=14)
+        label_7.grid(row=8, column=0, pady=14)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
         e3 = ttk.Entry(self, width=3)
         e4 = ttk.Entry(self, width=3)
         e5 = ttk.Entry(self, width=3)
-        e1.grid(row=2, column=1, padx=10, pady=10)
-        e2.grid(row=3, column=1, padx=10, pady=10)
-        e3.grid(row=4, column=1, padx=10, pady=10)
-        e4.grid(row=5, column=1, padx=10, pady=10)
-        e5.grid(row=6, column=1, padx=10, pady=10)
+        e1.grid(row=2, column=1, padx=10, pady=14)
+        e2.grid(row=3, column=1, padx=10, pady=14)
+        e3.grid(row=4, column=1, padx=10, pady=14)
+        e4.grid(row=5, column=1, padx=10, pady=14)
+        e5.grid(row=6, column=1, padx=10, pady=14)
         e1.focus_set()
         e2.focus_set()
         e3.focus_set()
@@ -139,10 +140,10 @@ class Main(tk.Frame):
                 label_err.grid(row=9, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
-        ttk.Style().configure('black/gray.TButton', foreground='black', background='blue', height=5)
+        ttk.Style().configure('black/gray.TButton', foreground='black', background='blue', height=5, width=15)
         btn_calc = ttk.Button(self, text="calculate", style='black/gray.TButton', command=callback)
-        btn_calc.grid(row=9, column=0, padx=10, pady=20, sticky="E")
-        btn_calc.grid_rowconfigure(9, weight=2)
+        btn_calc.grid(row=9, column=0, padx=10, pady=20)
+        btn_calc.grid_columnconfigure(9, weight=2)
 
     def validateFloat(self, value):
         ENTRY = value.strip()
@@ -175,6 +176,8 @@ class Main(tk.Frame):
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
+        a.set_xlabel('time (ms)')
+        a.set_ylabel('pressure (kPa)')
 
         a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate*0.95))
         a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.02, ps_annotate*0.9))
@@ -188,9 +191,11 @@ class Main(tk.Frame):
         b = f2.add_subplot(111)
         b.set_title('Equivalent Loading')
         b.plot(pt_air_eq['x'], pt_air_eq['y'])
+        b.set_xlabel('time (ms)')
+        b.set_ylabel('pressure (kPa)')
 
         b.annotate('Pr: ' + str(pr_annotate), xy=(te_annotate*0.05, pr_annotate*0.97))
-        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.7, pr_annotate*0.03))
+        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.8, pr_annotate*0.03))
 
 
         b.grid(linestyle='-')
@@ -198,8 +203,8 @@ class Main(tk.Frame):
 
         canvas1.show()
         canvas2.show()
-        canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
-        canvas2._tkcanvas.grid(row=8, rowspan=15, column=2)
+        canvas1._tkcanvas.grid(row=2, rowspan=7, column=2)
+        canvas2._tkcanvas.grid(row=10, rowspan=15, column=2)
 
         self.show_outputs('Air', points)
 
@@ -214,17 +219,19 @@ class Main(tk.Frame):
         pt_sfc_fr_ps = pt_sfc_fr['ps']
         pt_sfc_eq = pt_sfc['equivalent']
 
-        pr_annotate = points['air']['outputs']['pr']
-        ps_annotate = points['air']['outputs']['ps']
-        td_annotate = points['air']['outputs']['td']
-        tc_annotate = points['air']['outputs']['tc']
-        te_annotate = points['air']['outputs']['te']
+        pr_annotate = points['surface']['outputs']['pr']
+        ps_annotate = points['surface']['outputs']['ps']
+        td_annotate = points['surface']['outputs']['td']
+        tc_annotate = points['surface']['outputs']['tc']
+        te_annotate = points['surface']['outputs']['te']
 
         f1 = Figure(figsize=(4,4), dpi=100)
         a = f1.add_subplot(111)
         a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
         a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
+        a.set_xlabel('time (ms)')
+        a.set_ylabel('pressure (kPa)')
 
         a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate*0.95))
         a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.02, ps_annotate*0.9))
@@ -237,9 +244,11 @@ class Main(tk.Frame):
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
         b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
+        b.set_xlabel('time (ms)')
+        b.set_ylabel('pressure (kPa)')
 
         b.annotate('Pr: ' + str(pr_annotate), xy=(te_annotate*0.05, pr_annotate*0.97))
-        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.7, pr_annotate*0.03))
+        b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.8, pr_annotate*0.03))
 
         b.grid(linestyle='-')
         canvas2 = FigureCanvasTkAgg(f2, self)
