@@ -44,22 +44,39 @@ class Main(tk.Frame):
         label.config(font=('Courier', 25))
         label.grid(row=0, column=0, columnspan=1, padx=10, pady=30)
 
+        label_input = tk.Label(self, text="INPUTS", fg="blue")
         label_1 = tk.Label(self, text="Actual Stand-off Distance (D)[m]")
         label_2 = tk.Label(self, text="Net Explosive Quantity (Q)[kg]")
-        label_3 = tk.Label(self, text="select your bomb type")
-        label_4 = tk.Label(self, text="select your calc type")
+        label_3 = tk.Label(self, text="Dimension B [m]")
+        label_4 = tk.Label(self, text="Dimension L [m]")
+        label_5 = tk.Label(self, text="Dimension H [m]")
+        label_6 = tk.Label(self, text="select your bomb type")
+        label_7 = tk.Label(self, text="select your calc type")
 
-        label_1.grid(row=1, column=0, pady=15)
-        label_2.grid(row=2, column=0, pady=15)
-        label_3.grid(row=3, column=0, pady=15)
-        label_4.grid(row=4, column=0, pady=15)
+        label_input.grid(row=1, column=0, columnspan=2, pady=20)
+        label_1.grid(row=2, column=0, pady=10)
+        label_2.grid(row=3, column=0, pady=10)
+        label_3.grid(row=4, column=0, pady=10)
+        label_4.grid(row=5, column=0, pady=10)
+        label_5.grid(row=6, column=0, pady=10)
+        label_6.grid(row=7, column=0, pady=10)
+        label_7.grid(row=8, column=0, pady=10)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
-        e1.grid(row=1, column=1, padx=10, pady=15)
-        e2.grid(row=2, column=1, padx=10, pady=15)
+        e3 = ttk.Entry(self, width=3)
+        e4 = ttk.Entry(self, width=3)
+        e5 = ttk.Entry(self, width=3)
+        e1.grid(row=2, column=1, padx=10, pady=10)
+        e2.grid(row=3, column=1, padx=10, pady=10)
+        e3.grid(row=4, column=1, padx=10, pady=10)
+        e4.grid(row=5, column=1, padx=10, pady=10)
+        e5.grid(row=6, column=1, padx=10, pady=10)
         e1.focus_set()
         e2.focus_set()
+        e3.focus_set()
+        e4.focus_set()
+        e5.focus_set()
 
         bomb_options = ["TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite"]
         bomb_type = tk.StringVar(self)
@@ -69,9 +86,9 @@ class Main(tk.Frame):
         print('cal_type.get()', cal_type.get())
 
         option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
-        option_1.grid(row=3, column=1, padx=10, pady=11)
+        option_1.grid(row=7, column=1, padx=10, pady=10)
         option_2 = ttk.OptionMenu(self, cal_type, cal_options[0], *cal_options)
-        option_2.grid(row=4, column=1, padx=10, pady=11)
+        option_2.grid(row=8, column=1, padx=10, pady=10)
 
         so_dist = None
         ne_qty = None
@@ -97,31 +114,35 @@ class Main(tk.Frame):
         def callback():
             if e1.get() == '' or e2.get() == '':
                 label_err = tk.Label(self, text="please type input values", fg="red")
-                label_err.grid(row=5, column=1)
+                label_err.grid(row=9, column=1)
             # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
-            elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()):
+            elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()) and self.validateFloat(e3.get()) and self.validateFloat(e4.get()) and self.validateFloat(e5.get()):
                 label_ok = tk.Label(self, text="     all input values are OK     ", fg="green")
-                label_ok.grid(row=5, column=1)
+                label_ok.grid(row=9, column=1)
                 so_dist = float(e1.get())
                 ne_qty = float(e2.get())
+                dim_b = float(e3.get())
+                dim_l = float(e4.get())
+                dim_h = float(e5.get())
                 TNT_EQ_FIG = set_TNT_EQ_FIG(bomb_type.get())
                 cal_type_val = cal_type.get()
                 print('bomb type', bomb_type.get())
                 print('cal_type', cal_type_val)
                 # compute param using Evaluate Class
                 if cal_type_val == 'air':
-                    self.plot_air(so_dist, ne_qty, TNT_EQ_FIG)
+                    self.plot_air(so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h)
                 else:
-                    self.plot_sfc(so_dist, ne_qty, TNT_EQ_FIG)
+                    self.plot_sfc(so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h)
 
             else:
                 label_err = tk.Label(self, text="please type integer input only", fg="red")
-                label_err.grid(row=5, column=1)
+                label_err.grid(row=9, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
-        ttk.Style().configure('white/gray.TButton', foreground='black', background='blue')
-        btn_calc = ttk.Button(self, text="calculate", style='white/gray.TButton', command=callback)
-        btn_calc.grid(row=5, column=0, padx=10, pady=20, sticky="E")
+        ttk.Style().configure('black/gray.TButton', foreground='black', background='blue', height=5)
+        btn_calc = ttk.Button(self, text="calculate", style='black/gray.TButton', command=callback)
+        btn_calc.grid(row=9, column=0, padx=10, pady=20, sticky="E")
+        btn_calc.grid_rowconfigure(9, weight=2)
 
     def validateFloat(self, value):
         ENTRY = value.strip()
@@ -133,8 +154,8 @@ class Main(tk.Frame):
             print('the input value is not integer or float')
             return
 
-    def plot_air(self, so_dist, ne_qty, TNT_EQ_FIG):
-        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG)
+    def plot_air(self, so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h):
+        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h)
         points = param_result.get_points()
         pt_air = points['air']
         pt_air_fr = pt_air['front-wall']
@@ -155,10 +176,10 @@ class Main(tk.Frame):
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
 
-        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate - 1))
-        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.05, ps_annotate - 3))
-        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.1))
-        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.05))
+        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate*0.95))
+        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.02, ps_annotate*0.9))
+        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.05))
+        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.02))
 
         a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
@@ -183,8 +204,8 @@ class Main(tk.Frame):
         self.show_outputs('Air', points)
 
 
-    def plot_sfc(self, so_dist, ne_qty, TNT_EQ_FIG):
-        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG)
+    def plot_sfc(self, so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h):
+        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h)
         points = param_result.get_points()
 
         pt_sfc = points['surface']
@@ -205,10 +226,10 @@ class Main(tk.Frame):
         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
         a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
 
-        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate - 1))
-        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.05, ps_annotate - 3))
-        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.1))
-        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.05))
+        a.annotate('Pr: ' + str(pr_annotate), xy=(td_annotate*0.05, pr_annotate*0.95))
+        a.annotate('Ps: ' + str(ps_annotate), xy=(td_annotate*0.02, ps_annotate*0.9))
+        a.annotate('td: ' + str(td_annotate), xy=(td_annotate*0.8, pr_annotate*0.05))
+        a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.02))
 
         a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
@@ -242,15 +263,15 @@ class Main(tk.Frame):
         label_output_6 = tk.Label(self, text="Arrival Time(Ta) [msec]")
         label_output_7 = tk.Label(self, text="Positive Phase Duration(T+) [msec]")
 
-        label_output.grid(row=7, column=0, columnspan=1, pady=10)
-        label_output_type.grid(row=8, column=1, pady=5)
-        label_output_1.grid(row=9, column=0, pady=5)
-        label_output_2.grid(row=10, column=0, pady=5)
-        label_output_3.grid(row=11, column=0, pady=5)
-        label_output_4.grid(row=12, column=0, pady=5)
-        label_output_5.grid(row=13, column=0, pady=5)
-        label_output_6.grid(row=14, column=0, pady=5)
-        label_output_7.grid(row=15, column=0, pady=5)
+        label_output.grid(row=10, column=0, columnspan=2, pady=10)
+        label_output_type.grid(row=11, column=1, pady=5)
+        label_output_1.grid(row=12, column=0, pady=5)
+        label_output_2.grid(row=13, column=0, pady=5)
+        label_output_3.grid(row=14, column=0, pady=5)
+        label_output_4.grid(row=15, column=0, pady=5)
+        label_output_5.grid(row=16, column=0, pady=5)
+        label_output_6.grid(row=17, column=0, pady=5)
+        label_output_7.grid(row=18, column=0, pady=5)
 
         if type_txt == 'Air':
             outputs = points['air']['outputs']
@@ -264,13 +285,13 @@ class Main(tk.Frame):
         label_output_val_5 = tk.Label(self, text=outputs['u'])
         label_output_val_6 = tk.Label(self, text=outputs['ta'])
         label_output_val_7 = tk.Label(self, text=outputs['td'])
-        label_output_val_1.grid(row=9, column=1, pady=5)
-        label_output_val_2.grid(row=10, column=1, pady=5)
-        label_output_val_3.grid(row=11, column=1, pady=5)
-        label_output_val_4.grid(row=12, column=1, pady=5)
-        label_output_val_5.grid(row=13, column=1, pady=5)
-        label_output_val_6.grid(row=14, column=1, pady=5)
-        label_output_val_7.grid(row=15, column=1, pady=5)
+        label_output_val_1.grid(row=12, column=1, pady=5)
+        label_output_val_2.grid(row=13, column=1, pady=5)
+        label_output_val_3.grid(row=14, column=1, pady=5)
+        label_output_val_4.grid(row=15, column=1, pady=5)
+        label_output_val_5.grid(row=16, column=1, pady=5)
+        label_output_val_6.grid(row=17, column=1, pady=5)
+        label_output_val_7.grid(row=18, column=1, pady=5)
 
 
 app = Blast()

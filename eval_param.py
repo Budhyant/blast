@@ -3,10 +3,6 @@ from param import Param
 
 class Evaluate:
 
-    # dimensions
-    dim_b = 1
-    dim_l = 1
-    dim_h = 3.6
     c_d = 1
     obj_ps = {
         'const_u_air': [
@@ -490,11 +486,14 @@ class Evaluate:
         ]
     }
 
-    def __init__(self, so_dist, ne_qty, TNT_EQ_FIG):
+    def __init__(self, so_dist, ne_qty, TNT_EQ_FIG, dim_b, dim_l, dim_h):
 
         self.TNT_EQ_WT = ne_qty * TNT_EQ_FIG
         self.sc_dist = so_dist / math.pow(self.TNT_EQ_WT, 0.3333)
         self.log_sc_dist = math.log(self.sc_dist, 10)
+        self.dim_b = dim_b
+        self.dim_l = dim_l
+        self.dim_h = dim_h
 
         self.ps_arr = self.get_ps()
         self.is_arr = self.get_is()
@@ -730,7 +729,6 @@ class Evaluate:
 
 
     def get_points(self):
-        # print('hello world')
         return {
             "air": {
                 "front-wall": {
@@ -787,6 +785,3 @@ class Evaluate:
                 }
             }
         }
-
-param = Evaluate(25, 25, 1)
-print('param.getpoints', param.get_points())
