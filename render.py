@@ -10,20 +10,6 @@ import tkinter as tk
 from tkinter import ttk
 LARGE_FONT = ("Verdana", 12)
 
-param_result = Evaluate(25, 25, 1)
-points = param_result.get_points()
-pt_air = points['air']
-pt_air_fr = pt_air['front-wall']
-pt_air_fr_pr = pt_air_fr['pr']
-pt_air_fr_ps = pt_air_fr['ps']
-pt_air_eq = pt_air['equivalent']
-
-pt_sfc = points['surface']
-pt_sfc_fr = pt_sfc['front-wall']
-pt_sfc_fr_pr = pt_sfc_fr['pr']
-pt_sfc_fr_ps = pt_sfc_fr['ps']
-pt_sfc_eq = pt_sfc['equivalent']
-
 class Blast(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -78,7 +64,7 @@ class Landing(tk.Frame):
         bomb_type.set("TNT") # initial value
         cal_type = tk.StringVar(self)
         cal_type.set("air") # initial value
-
+        print('cal_type.get()', cal_type.get())
         option_1 = tk.OptionMenu(self, bomb_type, "TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite")
         option_1.grid(row=3, column=1)
         option_2 = tk.OptionMenu(self, cal_type, "air", "surface")
@@ -86,8 +72,6 @@ class Landing(tk.Frame):
 
         so_dist = None
         ne_qty = None
-        TNT_EQ_FIG = None
-        cal_type = None
 
         def set_TNT_EQ_FIG(val):
             if val == 'TNT':
@@ -108,23 +92,98 @@ class Landing(tk.Frame):
             return
 
         def callback():
-            print('type e1', type(int(e1.get())), e1.get())
-            if type(e1.get()) == int and type(e2.get()) == int:
-                so_dist = e1.get()
-                ne_qty = e2.get()
+            if e1.get() == '' or e2.get() == '':
+                label_err = tk.Label(self, text="please type input values", fg="red")
+                label_err.grid(row=5, column=1)
+            # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
+            elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()):
+                label_ok = tk.Label(self, text="   all input values are OK   ", fg="green")
+                label_ok.grid(row=5, column=1)
+                so_dist = float(e1.get())
+                ne_qty = float(e2.get())
                 TNT_EQ_FIG = set_TNT_EQ_FIG(bomb_type.get())
-                cal_type = cal_type.get()
-                print('bomb type', bomb_type)
-                print('cal_type', cal_type)
+                cal_type_val = cal_type.get()
+                print('bomb type', bomb_type.get())
+                print('cal_type', cal_type_val)
                 # compute param using Evaluate Class
+                if cal_type_val == 'air':
+                    self.plot_air(so_dist, ne_qty, TNT_EQ_FIG)
+                else:
+                    self.plot_sfc(so_dist, ne_qty, TNT_EQ_FIG)
 
             else:
-                label_err = tk.Label(self, text="please type integer input only")
-                label_err.grid(row=3, column=1)
+                label_err = tk.Label(self, text="please type integer input only", fg="red")
+                label_err.grid(row=5, column=1)
+                print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
 
         btn_calc = tk.Button(self, text="calculate", width=10, command=callback)
         btn_calc.grid(row=5, column=0)
+
+    def validateFloat(self, value):
+        ENTRY = value.strip()
+        if ENTRY == "": return # do noting if we don't have a value
+        try:
+            NUMENTRY = float(ENTRY)
+            if NUMENTRY: return True
+        except ValueError:
+            print('the input value is not integer or float')
+            return
+
+    def plot_air(self, so_dist, ne_qty, TNT_EQ_FIG):
+        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG)
+        points = param_result.get_points()
+        pt_air = points['air']
+        pt_air_fr = pt_air['front-wall']
+        pt_air_fr_pr = pt_air_fr['pr']
+        pt_air_fr_ps = pt_air_fr['ps']
+        pt_air_eq = pt_air['equivalent']
+
+        f1 = Figure(figsize=(4,4), dpi=100)
+        a = f1.add_subplot(111)
+        a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
+        a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
+        a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
+        canvas1 = FigureCanvasTkAgg(f1, self)
+
+        f2 = Figure(figsize=(4,4), dpi=100)
+        b = f2.add_subplot(111)
+        b.plot(pt_air_eq['x'], pt_air_eq['y'])
+        canvas2 = FigureCanvasTkAgg(f2, self)
+
+        canvas1.show()
+        canvas2.show()
+        canvas1._tkcanvas.grid(row=0, rowspan=6, column=2)
+        canvas2._tkcanvas.grid(row=7, column=2)
+
+    def plot_sfc(self, so_dist, ne_qty, TNT_EQ_FIG):
+        param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG)
+        points = param_result.get_points()
+
+        pt_sfc = points['surface']
+        pt_sfc_fr = pt_sfc['front-wall']
+        pt_sfc_fr_pr = pt_sfc_fr['pr']
+        pt_sfc_fr_ps = pt_sfc_fr['ps']
+        pt_sfc_eq = pt_sfc['equivalent']
+
+        f1 = Figure(figsize=(4,4), dpi=100)
+        a = f1.add_subplot(111)
+        a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
+        a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
+        a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
+        canvas1 = FigureCanvasTkAgg(f1, self)
+
+        f2 = Figure(figsize=(4,4), dpi=100)
+        b = f2.add_subplot(111)
+        b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
+        canvas2 = FigureCanvasTkAgg(f2, self)
+
+        canvas1.show()
+        canvas2.show()
+        canvas1._tkcanvas.grid(row=0, rowspan=6, column=2)
+        canvas2._tkcanvas.grid(row=7, column=2)
+
+
 
 
 # class Air(tk.Frame):
