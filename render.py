@@ -39,23 +39,24 @@ class Landing(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="AIRBLAST PARAMETERS BY NEQ & TNT EQUIVALENCE", font=LARGE_FONT)
-        label.grid(row=0, column=0, columnspan=1, padx=5, pady=5)
+        label = tk.Label(self, text="AIRBLAST PARAMETERS\nBY NEQ & BY TNT EQUIVALENCE", font=LARGE_FONT, fg="blue")
+        label.config(font=('Courier', 25))
+        label.grid(row=0, column=0, columnspan=1, padx=10, pady=30)
 
         label_1 = tk.Label(self, text="Actual Stand-off Distance (D)[m]")
         label_2 = tk.Label(self, text="Net Explosive Quantity (Q)[kg]")
         label_3 = tk.Label(self, text="select your bomb type")
         label_4 = tk.Label(self, text="select your calc type")
 
-        label_1.grid(row=1, column=0)
-        label_2.grid(row=2, column=0)
-        label_3.grid(row=3, column=0)
-        label_4.grid(row=4, column=0)
+        label_1.grid(row=1, column=0, pady=15, sticky="E")
+        label_2.grid(row=2, column=0, pady=15, sticky="E")
+        label_3.grid(row=3, column=0, pady=15, sticky="E")
+        label_4.grid(row=4, column=0, pady=15, sticky="E")
 
-        e1 = tk.Entry(self, width=3)
-        e2 = tk.Entry(self, width=3)
-        e1.grid(row=1, column=1)
-        e2.grid(row=2, column=1)
+        e1 = ttk.Entry(self, width=3)
+        e2 = ttk.Entry(self, width=3)
+        e1.grid(row=1, column=1, padx=10, pady=15)
+        e2.grid(row=2, column=1, padx=10, pady=15)
         e1.focus_set()
         e2.focus_set()
 
@@ -65,10 +66,10 @@ class Landing(tk.Frame):
         cal_type = tk.StringVar(self)
         cal_type.set("air") # initial value
         print('cal_type.get()', cal_type.get())
-        option_1 = tk.OptionMenu(self, bomb_type, "TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite")
-        option_1.grid(row=3, column=1)
-        option_2 = tk.OptionMenu(self, cal_type, "air", "surface")
-        option_2.grid(row=4, column=1)
+        option_1 = ttk.OptionMenu(self, bomb_type, "TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite")
+        option_1.grid(row=3, column=1, padx=10, pady=11)
+        option_2 = ttk.OptionMenu(self, cal_type, "air", "surface")
+        option_2.grid(row=4, column=1, padx=10, pady=11)
 
         so_dist = None
         ne_qty = None
@@ -97,7 +98,7 @@ class Landing(tk.Frame):
                 label_err.grid(row=5, column=1)
             # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
             elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()):
-                label_ok = tk.Label(self, text="   all input values are OK   ", fg="green")
+                label_ok = tk.Label(self, text="   all input values are OK   ", fg="black")
                 label_ok.grid(row=5, column=1)
                 so_dist = float(e1.get())
                 ne_qty = float(e2.get())
@@ -116,9 +117,9 @@ class Landing(tk.Frame):
                 label_err.grid(row=5, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
-
-        btn_calc = tk.Button(self, text="calculate", width=10, command=callback)
-        btn_calc.grid(row=5, column=0)
+        ttk.Style().configure('white/gray.TButton', foreground='black', background='gray')
+        btn_calc = ttk.Button(self, text="calculate", style='white/gray.TButton', command=callback)
+        btn_calc.grid(row=5, column=0, padx=10, pady=20, sticky="E")
 
     def validateFloat(self, value):
         ENTRY = value.strip()
@@ -141,13 +142,16 @@ class Landing(tk.Frame):
 
         f1 = Figure(figsize=(4,4), dpi=100)
         a = f1.add_subplot(111)
+        a.set_title('Front-Wall Loading')
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
+        a.annotate('Pr', xy=(0.9, 0.9))
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
         canvas1 = FigureCanvasTkAgg(f1, self)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
+        b.set_title('Equivalent Loading')
         b.plot(pt_air_eq['x'], pt_air_eq['y'])
         canvas2 = FigureCanvasTkAgg(f2, self)
 
@@ -183,92 +187,6 @@ class Landing(tk.Frame):
         canvas1._tkcanvas.grid(row=0, rowspan=6, column=2)
         canvas2._tkcanvas.grid(row=7, column=2)
 
-
-
-
-# class Air(tk.Frame):
-
-#     def __init__(self, parent, controller):
-#         tk.Frame.__init__(self, parent)
-#         label = tk.Label(self, text="Air", font=LARGE_FONT)
-#         label.pack(pady=10, padx=10)
-
-#         button1 = ttk.Button(self, text="Back to Home",
-#                             command=lambda: controller.show_frame(Landing))
-#         button1.pack()
-
-#         f1 = Figure(figsize=(5,5), dpi=100)
-#         a = f1.add_subplot(111)
-#         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
-#         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
-#         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
-#         # a.xlabel('time (t)')
-#         # a.ylabel('pressure (kpa)')
-
-#         f2 = Figure(figsize=(5,5), dpi=100)
-#         b = f2.add_subplot(111)
-#         b.plot(pt_air_eq['x'], pt_air_eq['y'])
-#         # b.xlabel('time (t)')
-#         # b.ylabel('pressure (kpa)')
-
-#         # plt.show()
-#         canvas1 = FigureCanvasTkAgg(f1, self)
-#         canvas1.show()
-
-#         # toolbar = NavigationToolbar2TkAgg(canvas1, self)
-#         # toolbar.update()
-#         canvas1._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-#         # canvas1.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-#         canvas2 = FigureCanvasTkAgg(f2, self)
-#         canvas2.show()
-
-#         # toolbar = NavigationToolbar2TkAgg(canvas2, self)
-#         # toolbar.update()
-#         canvas2._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-#         # canvas2.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-# class Surface(tk.Frame):
-
-#     def __init__(self, parent, controller):
-#         tk.Frame.__init__(self, parent)
-#         label = tk.Label(self, text="Surface", font=LARGE_FONT)
-#         label.pack(pady=10, padx=10)
-
-#         button1 = ttk.Button(self, text="Back to Home",
-#                             command=lambda: controller.show_frame(Landing))
-#         button1.pack()
-
-#         f1 = Figure(figsize=(5,5), dpi=100)
-#         a = f1.add_subplot(111)
-#         a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
-#         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
-#         a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
-#         # a.xlabel('time (t)')
-#         # a.ylabel('pressure (kpa)')
-
-#         f2 = Figure(figsize=(5,5), dpi=100)
-#         b = f2.add_subplot(111)
-#         b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
-#         # b.xlabel('time (t)')
-#         # b.ylabel('pressure (kpa)')
-
-#         # plt.show()
-#         canvas1 = FigureCanvasTkAgg(f1, self)
-#         canvas1.show()
-
-#         # toolbar = NavigationToolbar2TkAgg(canvas1, self)
-#         # toolbar.update()
-#         canvas1._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-#         # canvas1.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-#         canvas2 = FigureCanvasTkAgg(f2, self)
-#         canvas2.show()
-
-#         # toolbar = NavigationToolbar2TkAgg(canvas2, self)
-#         # toolbar.update()
-#         canvas2._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-#         # canvas2.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 app = Blast()
 app.mainloop()
