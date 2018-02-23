@@ -40,7 +40,7 @@ class Landing(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="AIRBLAST PARAMETERS\nBY NEQ & BY TNT EQUIVALENCE", font=LARGE_FONT, fg="blue")
+        label = tk.Label(self, text="AIRBLAST PARAMETERS", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
         label.grid(row=0, column=0, columnspan=1, padx=10, pady=30)
 
@@ -100,7 +100,7 @@ class Landing(tk.Frame):
                 label_err.grid(row=5, column=1)
             # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
             elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()):
-                label_ok = tk.Label(self, text="   all input values are OK   ", fg="green")
+                label_ok = tk.Label(self, text="     all input values are OK     ", fg="green")
                 label_ok.grid(row=5, column=1)
                 so_dist = float(e1.get())
                 ne_qty = float(e2.get())
