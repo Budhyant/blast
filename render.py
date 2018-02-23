@@ -27,7 +27,7 @@ class Blast(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        frame = Landing(container, self)
+        frame = Main(container, self)
         self.frames['Render'] = frame
         frame.grid(row=0, column=0, sticky="nsew")
 
@@ -36,7 +36,7 @@ class Blast(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-class Landing(tk.Frame):
+class Main(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
