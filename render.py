@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk
 LARGE_FONT = ("Verdana", 12)
+MID_FONT = ("Courier", 8)
 
 class Blast(tk.Tk):
 
@@ -48,10 +49,10 @@ class Landing(tk.Frame):
         label_3 = tk.Label(self, text="select your bomb type")
         label_4 = tk.Label(self, text="select your calc type")
 
-        label_1.grid(row=1, column=0, pady=15, sticky="E")
-        label_2.grid(row=2, column=0, pady=15, sticky="E")
-        label_3.grid(row=3, column=0, pady=15, sticky="E")
-        label_4.grid(row=4, column=0, pady=15, sticky="E")
+        label_1.grid(row=1, column=0, pady=15)
+        label_2.grid(row=2, column=0, pady=15)
+        label_3.grid(row=3, column=0, pady=15)
+        label_4.grid(row=4, column=0, pady=15)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
@@ -60,15 +61,16 @@ class Landing(tk.Frame):
         e1.focus_set()
         e2.focus_set()
 
-
+        bomb_options = ["TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite"]
         bomb_type = tk.StringVar(self)
-        bomb_type.set("TNT") # initial value
+
+        cal_options = ["air", "surface"]
         cal_type = tk.StringVar(self)
-        cal_type.set("air") # initial value
         print('cal_type.get()', cal_type.get())
-        option_1 = ttk.OptionMenu(self, bomb_type, "TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite")
+
+        option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
         option_1.grid(row=3, column=1, padx=10, pady=11)
-        option_2 = ttk.OptionMenu(self, cal_type, "air", "surface")
+        option_2 = ttk.OptionMenu(self, cal_type, cal_options[0], *cal_options)
         option_2.grid(row=4, column=1, padx=10, pady=11)
 
         so_dist = None
@@ -98,7 +100,7 @@ class Landing(tk.Frame):
                 label_err.grid(row=5, column=1)
             # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
             elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()):
-                label_ok = tk.Label(self, text="   all input values are OK   ", fg="black")
+                label_ok = tk.Label(self, text="   all input values are OK   ", fg="green")
                 label_ok.grid(row=5, column=1)
                 so_dist = float(e1.get())
                 ne_qty = float(e2.get())
@@ -144,7 +146,7 @@ class Landing(tk.Frame):
         a = f1.add_subplot(111)
         a.set_title('Front-Wall Loading')
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
-        a.annotate('Pr', xy=(0.9, 0.9))
+        # a.annotate('Pr', xy=(0.9, 0.9))
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
         canvas1 = FigureCanvasTkAgg(f1, self)
@@ -157,8 +159,11 @@ class Landing(tk.Frame):
 
         canvas1.show()
         canvas2.show()
-        canvas1._tkcanvas.grid(row=0, rowspan=6, column=2)
-        canvas2._tkcanvas.grid(row=7, column=2)
+        canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
+        canvas2._tkcanvas.grid(row=8, rowspan=15, column=2)
+
+        self.show_outputs('Air')
+
 
     def plot_sfc(self, so_dist, ne_qty, TNT_EQ_FIG):
         param_result = Evaluate(so_dist, ne_qty, TNT_EQ_FIG)
@@ -184,9 +189,32 @@ class Landing(tk.Frame):
 
         canvas1.show()
         canvas2.show()
-        canvas1._tkcanvas.grid(row=0, rowspan=6, column=2)
-        canvas2._tkcanvas.grid(row=7, column=2)
+        canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
+        canvas2._tkcanvas.grid(row=78, rowspan=15, column=2)
 
+        self.show_outputs('Air')
+
+
+    def show_outputs(self, type_txt):
+        label_output = tk.Label(self, text="OUTPUTS", font=MID_FONT, fg="blue")
+        label_output_type = tk.Label(self, text=type_txt)
+        label_output_1 = tk.Label(self, text="Peak Incident Pressure(Ps) [kPa]")
+        label_output_2 = tk.Label(self, text="Incident Impulse(Is) [kPa.msec]")
+        label_output_3 = tk.Label(self, text="Peak Reflected Pressure(Ps) [kPa]")
+        label_output_4 = tk.Label(self, text="Reflected Impulse(Ir) [kPa.msec]")
+        label_output_5 = tk.Label(self, text="Shock Front Velocity(U) [m/msec]")
+        label_output_6 = tk.Label(self, text="Arrival Time(Ta) [msec]")
+        label_output_7 = tk.Label(self, text="Positive Phase Duration(T+) [msec]")
+
+        label_output.grid(row=7, column=0, columnspan=1, pady=10)
+        label_output_type.grid(row=8, column=1, pady=5)
+        label_output_1.grid(row=9, column=0, pady=5)
+        label_output_2.grid(row=10, column=0, pady=5)
+        label_output_3.grid(row=11, column=0, pady=5)
+        label_output_4.grid(row=12, column=0, pady=5)
+        label_output_5.grid(row=13, column=0, pady=5)
+        label_output_6.grid(row=14, column=0, pady=5)
+        label_output_7.grid(row=15, column=0, pady=5)
 
 app = Blast()
 app.mainloop()
