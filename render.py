@@ -226,7 +226,7 @@ class Main(tk.Frame):
         canvas1.show()
         canvas2.show()
         canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
-        canvas2._tkcanvas.grid(row=78, rowspan=15, column=2)
+        canvas2._tkcanvas.grid(row=8, rowspan=15, column=2)
 
         self.show_outputs('Surface', points)
 
