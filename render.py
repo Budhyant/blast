@@ -149,12 +149,14 @@ class Main(tk.Frame):
         # a.annotate('Pr', xy=(0.9, 0.9))
         a.plot(pt_air_fr_ps['x'], pt_air_fr_ps['y'])
         a.plot([pt_air_fr_pr['x'][1], pt_air_fr_pr['x'][1]], [0, pt_air_fr_pr['y'][1]], '--')
+        a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
         b.set_title('Equivalent Loading')
         b.plot(pt_air_eq['x'], pt_air_eq['y'])
+        b.grid(linestyle='-')
         canvas2 = FigureCanvasTkAgg(f2, self)
 
         canvas1.show()
@@ -180,11 +182,13 @@ class Main(tk.Frame):
         a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
         a.plot([pt_sfc_fr_pr['x'][1], pt_sfc_fr_pr['x'][1]], [0, pt_sfc_fr_pr['y'][1]], '--')
+        a.grid(linestyle='-')
         canvas1 = FigureCanvasTkAgg(f1, self)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
         b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
+        b.grid(linestyle='-')
         canvas2 = FigureCanvasTkAgg(f2, self)
 
         canvas1.show()
