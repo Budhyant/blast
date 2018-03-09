@@ -1,9 +1,6 @@
 print('Blast Load Calculator is loading ...')
 from eval_param import Evaluate
 
-from scroll_sample2 import VerticalScrolledFrame
-from scroll_test import ScrolledWindow
-
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
@@ -23,8 +20,8 @@ class Window(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
-        root = tk.Tk.__init__(self, *args, **kwargs)
-        self.frame = VerticalScrolledFrame(root)
+        tk.Tk.__init__(self, *args, **kwargs)
+        self.frame = tk.Frame(self)
         self.frame.pack(side="right", fill="y")
         tk.Tk.wm_title(self, "Blast Load Calculator")
 
@@ -48,7 +45,7 @@ class Main(tk.Frame):
         label.grid(row=0, column=0, columnspan=3, padx=10)
 
         canvas = tk.Canvas(self, width = 250, height = 150)
-        canvas.grid(row=4, column=0, pady=5)
+        canvas.grid(row=4, rowspan=3, column=0, pady=5)
         self.img = Image.open(path)
         self.img = self.img.resize((250, 150), Image.ANTIALIAS)
         self.img = ImageTk.PhotoImage(self.img)
@@ -63,14 +60,14 @@ class Main(tk.Frame):
         label_6 = tk.Label(self, text="select your bomb type")
         label_7 = tk.Label(self, text="select your calc type")
 
-        label_input.grid(row=1, column=0, columnspan=2, pady=10)
+        label_input.grid(row=1, column=0, columnspan=1, pady=10)
         label_1.grid(row=2, column=0, pady=10)
         label_2.grid(row=3, column=0, pady=10)
-        label_3.grid(row=5, column=0, pady=10)
-        label_4.grid(row=6, column=0, pady=10)
-        label_5.grid(row=7, column=0, pady=10)
-        label_6.grid(row=8, column=0, pady=10)
-        label_7.grid(row=9, column=0, pady=10)
+        label_3.grid(row=7, column=0, pady=10)
+        label_4.grid(row=8, column=0, pady=10)
+        label_5.grid(row=9, column=0, pady=10)
+        label_6.grid(row=10, column=0, pady=10)
+        label_7.grid(row=11, column=0, pady=10)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
@@ -79,9 +76,9 @@ class Main(tk.Frame):
         e5 = ttk.Entry(self, width=3)
         e1.grid(row=2, column=1, padx=10, pady=10)
         e2.grid(row=3, column=1, padx=10, pady=10)
-        e3.grid(row=5, column=1, padx=10, pady=10)
-        e4.grid(row=6, column=1, padx=10, pady=10)
-        e5.grid(row=7, column=1, padx=10, pady=10)
+        e3.grid(row=7, column=1, padx=10, pady=10)
+        e4.grid(row=8, column=1, padx=10, pady=10)
+        e5.grid(row=9, column=1, padx=10, pady=10)
         e1.focus_set()
         e2.focus_set()
         e3.focus_set()
@@ -95,9 +92,9 @@ class Main(tk.Frame):
         cal_type = tk.StringVar(self)
 
         option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
-        option_1.grid(row=8, column=1, padx=10, pady=10)
+        option_1.grid(row=10, column=1, padx=10, pady=10)
         option_2 = ttk.OptionMenu(self, cal_type, cal_options[0], *cal_options)
-        option_2.grid(row=9, column=1, padx=10, pady=10)
+        option_2.grid(row=11, column=1, padx=10, pady=10)
 
         so_dist = None
         ne_qty = None
@@ -123,11 +120,11 @@ class Main(tk.Frame):
         def callback():
             if e1.get() == '' or e2.get() == '':
                 label_err = tk.Label(self, text="please type input values", fg="red")
-                label_err.grid(row=9, column=1)
+                label_err.grid(row=12, column=1)
             # elif type(int(e1.get())) == int and type(int(e2.get())) == int:
             elif self.validateFloat(e1.get()) and self.validateFloat(e2.get()) and self.validateFloat(e3.get()) and self.validateFloat(e4.get()) and self.validateFloat(e5.get()):
-                label_ok = tk.Label(self, text="     all input values are OK     ", fg="green")
-                label_ok.grid(row=9, column=1)
+                label_ok = tk.Label(self, text="     all input values are valid     ", fg="green")
+                label_ok.grid(row=12, column=1)
                 so_dist = float(e1.get())
                 ne_qty = float(e2.get())
                 dim_b = float(e3.get())
@@ -145,13 +142,14 @@ class Main(tk.Frame):
 
             else:
                 label_err = tk.Label(self, text="please type integer input only", fg="red")
-                label_err.grid(row=9, column=1)
+                label_err.grid(row=12, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
         ttk.Style().configure('black/gray.TButton', foreground='black', background='blue', height=5, width=15)
         btn_calc = ttk.Button(self, text="calculate", style='black/gray.TButton', command=callback)
-        btn_calc.grid(row=9, column=0, padx=10, pady=20)
-        btn_calc.grid_columnconfigure(9, weight=2)
+        btn_calc.grid(row=12, column=0, padx=10, pady=20)
+        btn_calc.grid_columnconfigure(12, weight=2)
+
 
     def validateFloat(self, value):
         ENTRY = value.strip()
@@ -193,7 +191,13 @@ class Main(tk.Frame):
         a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.02))
 
         a.grid(linestyle='-')
-        canvas1 = FigureCanvasTkAgg(f1, self)
+
+        win_ftwall_load = tk.Toplevel(self)
+        win_ftwall_load.wm_title("Air")
+        l = tk.Label(win_ftwall_load, text="Air")
+        l.pack()
+
+        canvas1 = FigureCanvasTkAgg(f1, win_ftwall_load)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
@@ -207,12 +211,19 @@ class Main(tk.Frame):
 
 
         b.grid(linestyle='-')
-        canvas2 = FigureCanvasTkAgg(f2, self)
+
+        win_eq_load = tk.Toplevel(self)
+        win_eq_load.wm_title("Air")
+        l = tk.Label(win_eq_load, text="Air")
+        l.pack()
+
+        canvas2 = FigureCanvasTkAgg(f2, win_eq_load)
 
         canvas1.show()
         canvas2.show()
-        canvas1._tkcanvas.grid(row=2, rowspan=7, column=2)
-        canvas2._tkcanvas.grid(row=10, rowspan=15, column=2)
+
+        canvas1._tkcanvas.pack()
+        canvas2._tkcanvas.pack()
 
         self.show_outputs('Air', points)
 
@@ -247,7 +258,13 @@ class Main(tk.Frame):
         a.annotate('tc: ' + str(tc_annotate), xy=(tc_annotate*1.1, pr_annotate*0.02))
 
         a.grid(linestyle='-')
-        canvas1 = FigureCanvasTkAgg(f1, self)
+
+        win_front_wall = tk.Toplevel(self)
+        win_front_wall.wm_title("Air")
+        l = tk.Label(win_front_wall, text="Air")
+        l.pack()
+
+        canvas1 = FigureCanvasTkAgg(f1, win_front_wall)
 
         f2 = Figure(figsize=(4,4), dpi=100)
         b = f2.add_subplot(111)
@@ -259,19 +276,24 @@ class Main(tk.Frame):
         b.annotate('te: ' + str(te_annotate), xy=(te_annotate*0.8, pr_annotate*0.03))
 
         b.grid(linestyle='-')
-        canvas2 = FigureCanvasTkAgg(f2, self)
+
+        win_eq_loading = tk.Toplevel(self)
+        win_eq_loading.wm_title("Air")
+        l = tk.Label(win_eq_loading, text="Air")
+        l.pack()
+
+        canvas2 = FigureCanvasTkAgg(f2, win_eq_loading)
 
         canvas1.show()
         canvas2.show()
-        canvas1._tkcanvas.grid(row=1, rowspan=7, column=2)
-        canvas2._tkcanvas.grid(row=8, rowspan=15, column=2)
+        canvas1._tkcanvas.pack()
+        canvas2._tkcanvas.pack()
 
         self.show_outputs('Surface', points)
 
-
     def show_outputs(self, type_txt, points):
         label_output = tk.Label(self, text="OUTPUTS", fg="blue")
-        label_output_type = tk.Label(self, text=type_txt)
+        # label_output_type = tk.Label(self, text=type_txt)
         label_output_1 = tk.Label(self, text="Peak Incident Pressure(Ps) [kPa]")
         label_output_2 = tk.Label(self, text="Incident Impulse(Is) [kPa.msec]")
         label_output_3 = tk.Label(self, text="Peak Reflected Pressure(Pr) [kPa]")
@@ -280,15 +302,15 @@ class Main(tk.Frame):
         label_output_6 = tk.Label(self, text="Arrival Time(Ta) [msec]")
         label_output_7 = tk.Label(self, text="Positive Phase Duration(T+) [msec]")
 
-        label_output.grid(row=10, column=0, columnspan=2, pady=10)
-        label_output_type.grid(row=11, column=1, pady=5)
-        label_output_1.grid(row=12, column=0, pady=5)
-        label_output_2.grid(row=13, column=0, pady=5)
-        label_output_3.grid(row=14, column=0, pady=5)
-        label_output_4.grid(row=15, column=0, pady=5)
-        label_output_5.grid(row=16, column=0, pady=5)
-        label_output_6.grid(row=17, column=0, pady=5)
-        label_output_7.grid(row=18, column=0, pady=5)
+        label_output.grid(row=1, column=2, columnspan=3, pady=10)
+        # label_output_type.grid(row=11, column=1, pady=5)
+        label_output_1.grid(row=2, column=2, pady=5)
+        label_output_2.grid(row=3, column=2, pady=5)
+        label_output_3.grid(row=4, column=2, pady=5)
+        label_output_4.grid(row=5, column=2, pady=5)
+        label_output_5.grid(row=6, column=2, pady=5)
+        label_output_6.grid(row=7, column=2, pady=5)
+        label_output_7.grid(row=8, column=2, pady=5)
 
         if type_txt == 'Air':
             outputs = points['air']['outputs']
@@ -302,13 +324,14 @@ class Main(tk.Frame):
         label_output_val_5 = tk.Label(self, text=outputs['u'])
         label_output_val_6 = tk.Label(self, text=outputs['ta'])
         label_output_val_7 = tk.Label(self, text=outputs['td'])
-        label_output_val_1.grid(row=12, column=1, pady=5)
-        label_output_val_2.grid(row=13, column=1, pady=5)
-        label_output_val_3.grid(row=14, column=1, pady=5)
-        label_output_val_4.grid(row=15, column=1, pady=5)
-        label_output_val_5.grid(row=16, column=1, pady=5)
-        label_output_val_6.grid(row=17, column=1, pady=5)
-        label_output_val_7.grid(row=18, column=1, pady=5)
+        label_output_val_1.grid(row=2, column=3, pady=5)
+        label_output_val_2.grid(row=3, column=3, pady=5)
+        label_output_val_3.grid(row=4, column=3, pady=5)
+        label_output_val_4.grid(row=5, column=3, pady=5)
+        label_output_val_5.grid(row=6, column=3, pady=5)
+        label_output_val_6.grid(row=7, column=3, pady=5)
+        label_output_val_7.grid(row=8, column=3, pady=5)
+
 
 if __name__ == "__main__":
     app = Window()
