@@ -1,5 +1,9 @@
 print('Blast Load Calculator is loading ...')
 from eval_param import Evaluate
+
+from scroll_sample2 import VerticalScrolledFrame
+from scroll_test import ScrolledWindow
+
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
@@ -12,30 +16,24 @@ from tkinter import ttk
 LARGE_FONT = ("Verdana", 12)
 MID_FONT = ("Courier", 8)
 
-class Blast(tk.Tk):
+class Window(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
-        tk.Tk.__init__(self, *args, **kwargs)
-
-        # tk.Tk.iconbitmap(self, default="")
+        root = tk.Tk.__init__(self, *args, **kwargs)
+        self.frame = VerticalScrolledFrame(root)
+        self.frame.pack(side="right", fill="y")
         tk.Tk.wm_title(self, "Blast Load Calculator")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
 
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        # container.grid_rowconfigure(0, weight=1)
+        # container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-        frame = Main(container, self)
-        self.frames['Render'] = frame
-        frame.grid(row=0, column=0, sticky="nsew")
+        main = Main(container, self)
+        main.pack()
 
-    def show_frame(self, cont):
-
-        frame = self.frames[cont]
-        frame.tkraise()
 
 class Main(tk.Frame):
 
@@ -43,7 +41,8 @@ class Main(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
-        label.grid(row=0, column=0, columnspan=3, padx=10, pady=30)
+        # label.grid(row=0, column=0, columnspan=3, padx=10, pady=30)
+        label.grid(row=0, column=0, columnspan=3, padx=10)
 
         label_input = tk.Label(self, text="INPUTS", fg="blue")
         label_1 = tk.Label(self, text="Actual Stand-off Distance (D)[m]")
@@ -54,25 +53,25 @@ class Main(tk.Frame):
         label_6 = tk.Label(self, text="select your bomb type")
         label_7 = tk.Label(self, text="select your calc type")
 
-        label_input.grid(row=1, column=0, columnspan=2, pady=20)
-        label_1.grid(row=2, column=0, pady=14)
-        label_2.grid(row=3, column=0, pady=14)
-        label_3.grid(row=4, column=0, pady=14)
-        label_4.grid(row=5, column=0, pady=14)
-        label_5.grid(row=6, column=0, pady=14)
-        label_6.grid(row=7, column=0, pady=14)
-        label_7.grid(row=8, column=0, pady=14)
+        label_input.grid(row=1, column=0, columnspan=2, pady=10)
+        label_1.grid(row=2, column=0, pady=10)
+        label_2.grid(row=3, column=0, pady=10)
+        label_3.grid(row=4, column=0, pady=10)
+        label_4.grid(row=5, column=0, pady=10)
+        label_5.grid(row=6, column=0, pady=10)
+        label_6.grid(row=7, column=0, pady=10)
+        label_7.grid(row=8, column=0, pady=10)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
         e3 = ttk.Entry(self, width=3)
         e4 = ttk.Entry(self, width=3)
         e5 = ttk.Entry(self, width=3)
-        e1.grid(row=2, column=1, padx=10, pady=14)
-        e2.grid(row=3, column=1, padx=10, pady=14)
-        e3.grid(row=4, column=1, padx=10, pady=14)
-        e4.grid(row=5, column=1, padx=10, pady=14)
-        e5.grid(row=6, column=1, padx=10, pady=14)
+        e1.grid(row=2, column=1, padx=10, pady=10)
+        e2.grid(row=3, column=1, padx=10, pady=10)
+        e3.grid(row=4, column=1, padx=10, pady=10)
+        e4.grid(row=5, column=1, padx=10, pady=10)
+        e5.grid(row=6, column=1, padx=10, pady=10)
         e1.focus_set()
         e2.focus_set()
         e3.focus_set()
@@ -84,7 +83,6 @@ class Main(tk.Frame):
 
         cal_options = ["air", "surface"]
         cal_type = tk.StringVar(self)
-        print('cal_type.get()', cal_type.get())
 
         option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
         option_1.grid(row=7, column=1, padx=10, pady=10)
@@ -302,6 +300,6 @@ class Main(tk.Frame):
         label_output_val_6.grid(row=17, column=1, pady=5)
         label_output_val_7.grid(row=18, column=1, pady=5)
 
-
-app = Blast()
-app.mainloop()
+if __name__ == "__main__":
+    app = Window()
+    app.mainloop()
