@@ -41,7 +41,6 @@ class Main(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
-        # label.grid(row=0, column=0, columnspan=3, padx=10, pady=30)
         label.grid(row=0, column=0, columnspan=3, padx=10)
 
         canvas = tk.Canvas(self, width = 250, height = 150)
@@ -60,8 +59,6 @@ class Main(tk.Frame):
         label_6 = tk.Label(self, text="select your bomb type")
         label_7 = tk.Label(self, text="select your calc type")
 
-        label_copyright = tk.Label(self, text="The calculation is based on \n\"Airblast Parameters from TNT Spherical Air Burst & Hemispherical Surface Burst\"\nby Charles N Kingerey & Gerald Bulmash, Tech Report ARBRL-TR-02555 dated April 1984.\nIt is equivalent to UFC 3-340-02 Copyrights Ⓒ 2018 All rights reserved\n")
-
         label_input.grid(row=1, column=0, columnspan=1, pady=10)
         label_1.grid(row=2, column=0, pady=10)
         label_2.grid(row=3, column=0, pady=10)
@@ -70,8 +67,6 @@ class Main(tk.Frame):
         label_5.grid(row=9, column=0, pady=10)
         label_6.grid(row=10, column=0, pady=10)
         label_7.grid(row=11, column=0, pady=10)
-
-        label_copyright.grid(row=13, column=0, columnspan=4, pady=20)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
@@ -88,6 +83,10 @@ class Main(tk.Frame):
         e3.focus_set()
         e4.focus_set()
         e5.focus_set()
+
+        label_copyright = tk.Label(self, text="The calculation is based on \n\"Airblast Parameters from TNT Spherical Air Burst & Hemispherical Surface Burst\"\nby Charles N Kingerey & Gerald Bulmash, Tech Report ARBRL-TR-02555 dated April 1984.\nIt is equivalent to UFC 3-340-02 Copyrights Ⓒ 2018 All rights reserved\n")
+        label_copyright.grid(row=13, column=0, columnspan=4, pady=20)
+
 
         bomb_options = ["TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite"]
         bomb_type = tk.StringVar(self)
@@ -300,8 +299,8 @@ class Main(tk.Frame):
         self.show_outputs('Surface', points)
 
     def show_outputs(self, type_txt, points):
-        label_output_type = tk.Label(self, text=type_txt)
-        label_output_type.grid(row=2, column=2, columnspan=2, pady=5)
+        label_output_type = tk.Label(self, text="output type: " + type_txt)
+        label_output_type.grid(row=2, column=3, columnspan=4, pady=5)
 
         if type_txt == 'Air':
             outputs = points['air']['outputs']
@@ -315,13 +314,13 @@ class Main(tk.Frame):
         label_output_val_5 = tk.Label(self, text=outputs['u'])
         label_output_val_6 = tk.Label(self, text=outputs['ta'])
         label_output_val_7 = tk.Label(self, text=outputs['td'])
-        label_output_val_1.grid(row=3, column=3, padx=5, pady=5)
-        label_output_val_2.grid(row=4, column=3, padx=5, pady=5)
-        label_output_val_3.grid(row=5, column=3, padx=5, pady=5)
-        label_output_val_4.grid(row=6, column=3, padx=5, pady=5)
-        label_output_val_5.grid(row=7, column=3, padx=5, pady=5)
-        label_output_val_6.grid(row=8, column=3, padx=5, pady=5)
-        label_output_val_7.grid(row=9, column=3, padx=5, pady=5)
+        label_output_val_1.grid(row=3, column=4, padx=5, pady=5)
+        label_output_val_2.grid(row=4, column=4, padx=5, pady=5)
+        label_output_val_3.grid(row=5, column=4, padx=5, pady=5)
+        label_output_val_4.grid(row=6, column=4, padx=5, pady=5)
+        label_output_val_5.grid(row=7, column=4, padx=5, pady=5)
+        label_output_val_6.grid(row=8, column=4, padx=5, pady=5)
+        label_output_val_7.grid(row=9, column=4, padx=5, pady=5)
 
     def show_output_template(self):
         label_output = tk.Label(self, text="OUTPUTS", fg="blue")
@@ -333,30 +332,44 @@ class Main(tk.Frame):
         label_output_6 = tk.Label(self, text="Arrival Time(Ta) [msec]")
         label_output_7 = tk.Label(self, text="Positive Phase Duration(T+) [msec]")
 
-        label_output.grid(row=1, column=2, columnspan=3, pady=10)
-        label_output_1.grid(row=3, column=2, pady=5)
-        label_output_2.grid(row=4, column=2, pady=5)
-        label_output_3.grid(row=5, column=2, pady=5)
-        label_output_4.grid(row=6, column=2, pady=5)
-        label_output_5.grid(row=7, column=2, pady=5)
-        label_output_6.grid(row=8, column=2, pady=5)
-        label_output_7.grid(row=9, column=2, pady=5)
+        label_output.grid(row=1, column=3, columnspan=4, pady=10)
+        label_output_1.grid(row=3, column=3, pady=5)
+        label_output_2.grid(row=4, column=3, pady=5)
+        label_output_3.grid(row=5, column=3, pady=5)
+        label_output_4.grid(row=6, column=3, pady=5)
+        label_output_5.grid(row=7, column=3, pady=5)
+        label_output_6.grid(row=8, column=3, pady=5)
+        label_output_7.grid(row=9, column=3, pady=5)
 
-        label_output_val_1 = tk.Label(self, text="  ")
-        label_output_val_2 = tk.Label(self, text="  ")
-        label_output_val_3 = tk.Label(self, text="  ")
-        label_output_val_4 = tk.Label(self, text="  ")
-        label_output_val_5 = tk.Label(self, text="  ")
-        label_output_val_6 = tk.Label(self, text="  ")
-        label_output_val_7 = tk.Label(self, text="  ")
-        label_output_val_1.grid(row=3, column=3, padx=5, pady=5)
-        label_output_val_2.grid(row=4, column=3, padx=5, pady=5)
-        label_output_val_3.grid(row=5, column=3, padx=5, pady=5)
-        label_output_val_4.grid(row=6, column=3, padx=5, pady=5)
-        label_output_val_5.grid(row=7, column=3, padx=5, pady=5)
-        label_output_val_6.grid(row=8, column=3, padx=5, pady=5)
-        label_output_val_7.grid(row=9, column=3, padx=5, pady=5)
+        label_output_val_1 = tk.Label(self, text="    ")
+        label_output_val_2 = tk.Label(self, text="    ")
+        label_output_val_3 = tk.Label(self, text="    ")
+        label_output_val_4 = tk.Label(self, text="    ")
+        label_output_val_5 = tk.Label(self, text="    ")
+        label_output_val_6 = tk.Label(self, text="    ")
+        label_output_val_7 = tk.Label(self, text="    ")
+        label_output_val_1.grid(row=3, column=4, padx=5, pady=5)
+        label_output_val_2.grid(row=4, column=4, padx=5, pady=5)
+        label_output_val_3.grid(row=5, column=4, padx=5, pady=5)
+        label_output_val_4.grid(row=6, column=4, padx=5, pady=5)
+        label_output_val_5.grid(row=7, column=4, padx=5, pady=5)
+        label_output_val_6.grid(row=8, column=4, padx=5, pady=5)
+        label_output_val_7.grid(row=9, column=4, padx=5, pady=5)
 
+        label_output_val1_unit = tk.Label(self, text="kPa")
+        label_output_val2_unit = tk.Label(self, text="kPa.msec")
+        label_output_val3_unit = tk.Label(self, text="kPa")
+        label_output_val4_unit = tk.Label(self, text="kPa.msec")
+        label_output_val5_unit = tk.Label(self, text="m/msec")
+        label_output_val6_unit = tk.Label(self, text="msec")
+        label_output_val7_unit = tk.Label(self, text="msec")
+        label_output_val1_unit.grid(row=3, column=5, padx=5, pady=5)
+        label_output_val2_unit.grid(row=4, column=5, padx=5, pady=5)
+        label_output_val3_unit.grid(row=5, column=5, padx=5, pady=5)
+        label_output_val4_unit.grid(row=6, column=5, padx=5, pady=5)
+        label_output_val5_unit.grid(row=7, column=5, padx=5, pady=5)
+        label_output_val6_unit.grid(row=8, column=5, padx=5, pady=5)
+        label_output_val7_unit.grid(row=9, column=5, padx=5, pady=5)
 if __name__ == "__main__":
     app = Window()
     app.mainloop()
