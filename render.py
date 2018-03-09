@@ -13,6 +13,9 @@ from matplotlib.figure import Figure
 
 import tkinter as tk
 from tkinter import ttk
+from PIL import ImageTk, Image
+
+path = './dimension.png'
 LARGE_FONT = ("Verdana", 12)
 MID_FONT = ("Courier", 8)
 
@@ -44,6 +47,13 @@ class Main(tk.Frame):
         # label.grid(row=0, column=0, columnspan=3, padx=10, pady=30)
         label.grid(row=0, column=0, columnspan=3, padx=10)
 
+        canvas = tk.Canvas(self, width = 250, height = 150)
+        canvas.grid(row=4, column=0, pady=5)
+        self.img = Image.open(path)
+        self.img = self.img.resize((250, 150), Image.ANTIALIAS)
+        self.img = ImageTk.PhotoImage(self.img)
+        canvas.create_image(20, 0, anchor="nw", image=self.img)
+
         label_input = tk.Label(self, text="INPUTS", fg="blue")
         label_1 = tk.Label(self, text="Actual Stand-off Distance (D)[m]")
         label_2 = tk.Label(self, text="Net Explosive Quantity (Q)[kg]")
@@ -56,11 +66,11 @@ class Main(tk.Frame):
         label_input.grid(row=1, column=0, columnspan=2, pady=10)
         label_1.grid(row=2, column=0, pady=10)
         label_2.grid(row=3, column=0, pady=10)
-        label_3.grid(row=4, column=0, pady=10)
-        label_4.grid(row=5, column=0, pady=10)
-        label_5.grid(row=6, column=0, pady=10)
-        label_6.grid(row=7, column=0, pady=10)
-        label_7.grid(row=8, column=0, pady=10)
+        label_3.grid(row=5, column=0, pady=10)
+        label_4.grid(row=6, column=0, pady=10)
+        label_5.grid(row=7, column=0, pady=10)
+        label_6.grid(row=8, column=0, pady=10)
+        label_7.grid(row=9, column=0, pady=10)
 
         e1 = ttk.Entry(self, width=3)
         e2 = ttk.Entry(self, width=3)
@@ -69,9 +79,9 @@ class Main(tk.Frame):
         e5 = ttk.Entry(self, width=3)
         e1.grid(row=2, column=1, padx=10, pady=10)
         e2.grid(row=3, column=1, padx=10, pady=10)
-        e3.grid(row=4, column=1, padx=10, pady=10)
-        e4.grid(row=5, column=1, padx=10, pady=10)
-        e5.grid(row=6, column=1, padx=10, pady=10)
+        e3.grid(row=5, column=1, padx=10, pady=10)
+        e4.grid(row=6, column=1, padx=10, pady=10)
+        e5.grid(row=7, column=1, padx=10, pady=10)
         e1.focus_set()
         e2.focus_set()
         e3.focus_set()
@@ -85,9 +95,9 @@ class Main(tk.Frame):
         cal_type = tk.StringVar(self)
 
         option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
-        option_1.grid(row=7, column=1, padx=10, pady=10)
+        option_1.grid(row=8, column=1, padx=10, pady=10)
         option_2 = ttk.OptionMenu(self, cal_type, cal_options[0], *cal_options)
-        option_2.grid(row=8, column=1, padx=10, pady=10)
+        option_2.grid(row=9, column=1, padx=10, pady=10)
 
         so_dist = None
         ne_qty = None
