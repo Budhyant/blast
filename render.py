@@ -203,7 +203,7 @@ class Main(tk.Frame):
         tc_annotate = points['air']['outputs']['tc']
         te_annotate = points['air']['outputs']['te']
 
-        f1 = Figure(figsize=(4,4), dpi=100)
+        f1 = Figure(figsize=(8,8), dpi=100)
         a = f1.add_subplot(111)
         a.set_title('Front-Wall Loading')
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
@@ -226,7 +226,7 @@ class Main(tk.Frame):
 
         canvas1 = FigureCanvasTkAgg(f1, win_ftwall_load)
 
-        f2 = Figure(figsize=(4,4), dpi=100)
+        f2 = Figure(figsize=(8,8), dpi=100)
         b = f2.add_subplot(111)
         b.set_title('Equivalent Loading')
         b.plot(pt_air_eq['x'], pt_air_eq['y'])
@@ -246,7 +246,7 @@ class Main(tk.Frame):
 
         canvas2 = FigureCanvasTkAgg(f2, win_eq_load)
 
-        f3 = Figure(figsize=(4,4), dpi=100)
+        f3 = Figure(figsize=(8,8), dpi=100)
         c = f3.add_subplot(111)
         c.set_title('Friedlander Equation')
         c.plot(self.time, self.x_air_inc, label='Incident')
@@ -298,7 +298,7 @@ class Main(tk.Frame):
         tc_annotate = points['surface']['outputs']['tc']
         te_annotate = points['surface']['outputs']['te']
 
-        f1 = Figure(figsize=(4,4), dpi=100)
+        f1 = Figure(figsize=(8,8), dpi=100)
         a = f1.add_subplot(111)
         a.plot(pt_sfc_fr_pr['x'], pt_sfc_fr_pr['y'])
         a.plot(pt_sfc_fr_ps['x'], pt_sfc_fr_ps['y'])
@@ -320,7 +320,7 @@ class Main(tk.Frame):
 
         canvas1 = FigureCanvasTkAgg(f1, win_front_wall)
 
-        f2 = Figure(figsize=(4,4), dpi=100)
+        f2 = Figure(figsize=(8,8), dpi=100)
         b = f2.add_subplot(111)
         b.plot(pt_sfc_eq['x'], pt_sfc_eq['y'])
         b.set_xlabel('time (ms)')
@@ -338,7 +338,7 @@ class Main(tk.Frame):
 
         canvas2 = FigureCanvasTkAgg(f2, win_eq_loading)
 
-        f3 = Figure(figsize=(4,4), dpi=100)
+        f3 = Figure(figsize=(8,8), dpi=100)
         c = f3.add_subplot(111)
         c.set_title('Friedlander Equation')
         c.plot(self.time, self.x_sfc_inc, label='Incident')
