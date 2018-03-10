@@ -1,5 +1,8 @@
 print('Blast Load Calculator is loading ...')
+
 from eval_param import Evaluate
+import numpy as np
+import math
 
 import matplotlib
 matplotlib.use("TkAgg")
@@ -103,6 +106,14 @@ class Main(tk.Frame):
         option_2.grid(row=11, column=1, padx=10, pady=10)
 
         self.show_output_template();
+        self.b = 2;
+        self.time = np.arange(0, 100, 0.25)
+        self.x_air = []
+        self.x_sfc = []
+        self.x_air_inc = []
+        self.x_air_ref = []
+        self.x_sfc_inc = []
+        self.x_sfc_ref = []
 
         so_dist = None
         ne_qty = None
@@ -177,6 +188,15 @@ class Main(tk.Frame):
         pt_air_fr_ps = pt_air_fr['ps']
         pt_air_eq = pt_air['equivalent']
 
+        ps_air = pt_air['outputs']['ps']
+        pr_air = pt_air['outputs']['pr']
+        ta_air = pt_air['outputs']['ta']
+        tp_air = pt_air['outputs']['td']
+
+        self.x_air = self.get_graph_x(ta_air)
+        self.x_air_inc = self.get_graph_x_final(ps_air, ta_air, tp_air, self.x_air)
+        self.x_air_ref = self.get_graph_x_final(pr_air, ta_air, tp_air, self.x_air)
+
         pr_annotate = points['air']['outputs']['pr']
         ps_annotate = points['air']['outputs']['ps']
         td_annotate = points['air']['outputs']['td']
@@ -226,11 +246,28 @@ class Main(tk.Frame):
 
         canvas2 = FigureCanvasTkAgg(f2, win_eq_load)
 
+        f3 = Figure(figsize=(4,4), dpi=100)
+        c = f3.add_subplot(111)
+        c.set_title('Friedlander Equation')
+        c.plot(self.time, self.x_air_inc)
+        c.plot(self.time, self.x_air_ref)
+
+        c.grid(linestyle='-')
+
+        graph = tk.Toplevel(self)
+        graph.wm_title("Air")
+        label_graph = tk.Label(graph, text="Air")
+        label_graph.pack()
+
+        canvas3 = FigureCanvasTkAgg(f3, graph)
+
         canvas1.show()
         canvas2.show()
+        canvas3.show()
 
         canvas1._tkcanvas.pack()
         canvas2._tkcanvas.pack()
+        canvas3._tkcanvas.pack()
 
         self.show_outputs('Air', points)
 
@@ -244,6 +281,15 @@ class Main(tk.Frame):
         pt_sfc_fr_pr = pt_sfc_fr['pr']
         pt_sfc_fr_ps = pt_sfc_fr['ps']
         pt_sfc_eq = pt_sfc['equivalent']
+
+        ps_sfc = pt_sfc['outputs']['ps']
+        pr_sfc = pt_sfc['outputs']['pr']
+        ta_sfc = pt_sfc['outputs']['ta']
+        tp_sfc = pt_sfc['outputs']['td']
+
+        self.x_sfc = self.get_graph_x(ta_sfc)
+        self.x_sfc_inc = self.get_graph_x_final(ps_sfc, ta_sfc, tp_sfc, self.x_sfc)
+        self.x_sfc_ref = self.get_graph_x_final(pr_sfc, ta_sfc, tp_sfc, self.x_sfc)
 
         pr_annotate = points['surface']['outputs']['pr']
         ps_annotate = points['surface']['outputs']['ps']
@@ -267,8 +313,8 @@ class Main(tk.Frame):
         a.grid(linestyle='-')
 
         win_front_wall = tk.Toplevel(self)
-        win_front_wall.wm_title("Air")
-        l = tk.Label(win_front_wall, text="Air")
+        win_front_wall.wm_title("Surface")
+        l = tk.Label(win_front_wall, text="Surface")
         l.pack()
 
         canvas1 = FigureCanvasTkAgg(f1, win_front_wall)
@@ -285,16 +331,34 @@ class Main(tk.Frame):
         b.grid(linestyle='-')
 
         win_eq_loading = tk.Toplevel(self)
-        win_eq_loading.wm_title("Air")
-        l = tk.Label(win_eq_loading, text="Air")
+        win_eq_loading.wm_title("Surface")
+        l = tk.Label(win_eq_loading, text="Surface")
         l.pack()
 
         canvas2 = FigureCanvasTkAgg(f2, win_eq_loading)
 
+        f3 = Figure(figsize=(4,4), dpi=100)
+        c = f3.add_subplot(111)
+        c.set_title('Friedlander Equation')
+        c.plot(self.time, self.x_sfc_inc)
+        c.plot(self.time, self.x_sfc_ref)
+
+        c.grid(linestyle='-')
+
+        graph = tk.Toplevel(self)
+        graph.wm_title("Surface")
+        label_graph = tk.Label(graph, text="Surface")
+        label_graph.pack()
+
+        canvas3 = FigureCanvasTkAgg(f3, graph)
+
         canvas1.show()
         canvas2.show()
+        canvas3.show()
+
         canvas1._tkcanvas.pack()
         canvas2._tkcanvas.pack()
+        canvas3._tkcanvas.pack()
 
         self.show_outputs('Surface', points)
 
@@ -370,6 +434,34 @@ class Main(tk.Frame):
         label_output_val5_unit.grid(row=7, column=5, padx=5, pady=5)
         label_output_val6_unit.grid(row=8, column=5, padx=5, pady=5)
         label_output_val7_unit.grid(row=9, column=5, padx=5, pady=5)
+
+    def get_graph_x(self, ta):
+        result = []
+        no_data = None
+
+        for t in self.time:
+            if (t - ta) > 0:
+                result.append(t - ta)
+            else:
+                if (t - ta) < - 0.25:
+                    result.append(no_data)
+                else:
+                    result.append(0)
+        return result
+
+
+    def get_graph_x_final(self, p, ta, tp, x):
+        storage = []
+        for idx, item in enumerate(x):
+            if self.time[idx] - ta > - 0.25:
+                x = p * ( 1 - item / tp) * math.exp(-self.b * item / tp)
+                storage.append(x)
+            else:
+                storage.append(0)
+        return storage
+
+
+
 if __name__ == "__main__":
     app = Window()
     app.mainloop()

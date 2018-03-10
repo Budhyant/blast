@@ -727,7 +727,6 @@ class Evaluate:
             pc_arr.append(round(pc, 3))
         return pc_arr
 
-
     def get_points(self):
         return {
             "air": {
@@ -752,7 +751,7 @@ class Evaluate:
                     "ir": self.ir_arr[0],
                     "u": self.u_arr[0],
                     "ta": self.ta_arr[0],
-                    "td": self.td_arr[0],
+                    "td": self.td_arr[0], # td = tp
                     "tc": self.tc_arr[0],
                     "te": self.te_arr[0]
                 }
