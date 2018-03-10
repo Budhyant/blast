@@ -44,7 +44,7 @@ class Main(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
         label.config(font=('Courier', 25))
-        label.grid(row=0, column=0, columnspan=3, padx=10)
+        label.grid(row=0, column=0, columnspan=7, padx=15)
 
         canvas = tk.Canvas(self, width = 250, height = 150)
         canvas.grid(row=4, rowspan=3, column=0, pady=5)
@@ -249,8 +249,9 @@ class Main(tk.Frame):
         f3 = Figure(figsize=(4,4), dpi=100)
         c = f3.add_subplot(111)
         c.set_title('Friedlander Equation')
-        c.plot(self.time, self.x_air_inc)
-        c.plot(self.time, self.x_air_ref)
+        c.plot(self.time, self.x_air_inc, label='Incident')
+        c.plot(self.time, self.x_air_ref, label='Reflected')
+        c.legend(loc="upper right")
 
         c.grid(linestyle='-')
 
@@ -340,8 +341,9 @@ class Main(tk.Frame):
         f3 = Figure(figsize=(4,4), dpi=100)
         c = f3.add_subplot(111)
         c.set_title('Friedlander Equation')
-        c.plot(self.time, self.x_sfc_inc)
-        c.plot(self.time, self.x_sfc_ref)
+        c.plot(self.time, self.x_sfc_inc, label='Incident')
+        c.plot(self.time, self.x_sfc_ref, label='Reflected')
+        c.legend(loc="upper right")
 
         c.grid(linestyle='-')
 
