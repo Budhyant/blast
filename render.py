@@ -1,3 +1,9 @@
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+image_path = resource_path("./dimension.png")
 print('Blast Load Calculator is loading ...')
 
 from eval_param import Evaluate
@@ -15,7 +21,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-path = './dimension.png'
+path = './dimension.png' # probably not needed. image_path is used instead
 LARGE_FONT = ("Verdana", 12)
 MID_FONT = ("Courier", 8)
 
@@ -48,7 +54,7 @@ class Main(tk.Frame):
 
         canvas = tk.Canvas(self, width = 250, height = 150)
         canvas.grid(row=4, rowspan=3, column=0, pady=5)
-        self.img = Image.open(path)
+        self.img = Image.open(image_path)
         self.img = self.img.resize((250, 150), Image.ANTIALIAS)
         self.img = ImageTk.PhotoImage(self.img)
         canvas.create_image(20, 0, anchor="nw", image=self.img)
