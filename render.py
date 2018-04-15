@@ -1,14 +1,15 @@
 # uncomment for release version below
-# def resource_path(relative_path):
-#     """ Get absolute path to resource, works for dev and for PyInstaller """
-#     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-#     return os.path.join(base_path, relative_path)
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
-# my window version below
-# image_path = resource_path("./dimension.png")
+# my window version below (comment this out for mac user)
+image_path = resource_path("./dimension.png")
 
-# local mac version below
-image_path = ("./dimension.png")
+# local mac version below (comment this out for windows user)
+# image_path = ("./dimension.png")
+
 print('Blast Load Calculator is loading ...')
 
 from eval_param import Evaluate
