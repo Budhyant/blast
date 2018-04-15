@@ -1,6 +1,5 @@
 import math
 
-
 class Param:
     big_y_air = None
     big_y_surface = None
