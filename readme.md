@@ -22,6 +22,9 @@
 - tkinter: GUI helper
 - pyinstaller: to create OS dependent executable program
 
+### environment info
+- python v3.6.4 used
+
 ### general strategy
 1. in param.py we define all the reusable methods to get all the params
 2. in eval_param.py we have actual slopes data and plug them in into all the methods to get blas parameters in param.py
