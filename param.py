@@ -37,8 +37,8 @@ class Param:
     def get_list_fn_u(self, slopes, type_idx):
         storage = []
 
-        for idx, item in enumerate(slopes):
-            storage.append(self.get_fn_u_pow(item, idx + 1, type_idx))
+        for idx, slope in enumerate(slopes):
+            storage.append(self.get_fn_u_pow(slope, idx + 1, type_idx))
         return storage
 
     def get_y(self):

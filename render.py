@@ -1,23 +1,26 @@
-# uncomment for release version below
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
+# uncomment and use below resource_path code for release version in window
+# otherwise to run dev mode, please comment out below resource_path function
+# resource_path basically gets the absolute directory path for windows user
+
+# def resource_path(relative_path):
+#     """ Get absolute path to resource, works for dev and for PyInstaller """
+#     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+#     return os.path.join(base_path, relative_path)
 
 # my window version below (comment this out for mac user)
-image_path = resource_path("./dimension.png")
+# image_path = resource_path("./dimension.png")
 
 # local mac version below (comment this out for windows user)
-# image_path = ("./dimension.png")
+image_path = ("./dimension.png")
 
-print('Blast Load Calculator is loading ...')
+print('Blast Load Calculator is loading ... please wait')
 
 from eval_param import Evaluate
 import numpy as np
 import math
 
 import matplotlib
-matplotlib.use("TkAgg")
+matplotlib.use("TkAgg") # this must be loaded before import matplot.pyplot
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
@@ -27,34 +30,28 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-path = './dimension.png' # probably not needed. image_path is used instead
-LARGE_FONT = ("Verdana", 12)
-MID_FONT = ("Courier", 8)
 
 class Window(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.frame = tk.Frame(self)
+        self.frame = tk.Frame(self) # this is for the outer window box frame in window
         self.frame.pack(side="right", fill="y")
-        tk.Tk.wm_title(self, "Blast Load Calculator")
+        tk.Tk.wm_title(self, "Blast Load Calculator") # window frame title
 
-        container = tk.Frame(self)
+        container = tk.Frame(self) # inside the box window, antoher container frame defined
         container.pack(side="top", fill="both", expand=True, padx=10)
 
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
-        main = Main(container, self)
+        main = Main(container) # main container to be used in Main as an input argument
         main.pack()
 
 
 class Main(tk.Frame):
 
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Blast Load Calculator", font=LARGE_FONT, fg="blue")
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent) # initialize with container here we put all the meaningful input widgets
+        label = tk.Label(self, text="Blast Load Calculator", fg="blue")
         label.config(font=('Courier', 25))
         label.grid(row=0, column=0, columnspan=7, padx=15)
 
@@ -100,7 +97,7 @@ class Main(tk.Frame):
         e5.focus_set()
 
         label_copyright = tk.Label(self, text="The calculation is based on \n\"Airblast Parameters from TNT Spherical Air Burst & Hemispherical Surface Burst\"\nby Charles N Kingerey & Gerald Bulmash, Tech Report ARBRL-TR-02555 dated April 1984.\nIt is equivalent to UFC 3-340-02 Copyrights Ⓒ 2018 All rights reserved\n")
-        label_copyright.grid(row=13, column=0, columnspan=4, pady=20)
+        label_copyright.grid(row=13, column=0, columnspan=7, pady=20)
 
 
         bomb_options = ["TNT", "RDX", "HMX", "Nitroglycerin", "CompoundB", "Semtex", "60% Nitroglycerin dynamite"]
@@ -108,9 +105,6 @@ class Main(tk.Frame):
 
         cal_options = ["air", "surface"]
         cal_type = tk.StringVar(self)
-
-        output_type = tk.StringVar()
-        output_type.set('type: none')
 
         option_1 = ttk.OptionMenu(self, bomb_type, bomb_options[0], *bomb_options)
         option_1.grid(row=10, column=1, padx=10, pady=10)
@@ -120,15 +114,15 @@ class Main(tk.Frame):
         self.show_output_template();
         self.b = 2;
         self.time = np.arange(0, 100, 0.25)
+
+        # following states are for graph tab
         self.x_air = []
         self.x_sfc = []
-        self.x_air_inc = []
-        self.x_air_ref = []
-        self.x_sfc_inc = []
-        self.x_sfc_ref = []
+        self.x_air_inc = [] # incident for air
+        self.x_air_ref = [] # reflected for air
+        self.x_sfc_inc = [] # incident for surface
+        self.x_sfc_ref = [] # reflected for surface
 
-        so_dist = None
-        ne_qty = None
 
         def set_TNT_EQ_FIG(val):
             if val == 'TNT':
@@ -175,17 +169,15 @@ class Main(tk.Frame):
                 label_err.grid(row=12, column=1)
                 print('e1.get type', type(e1.get()), 'e2.get type', type(e2.get()))
             return
-        ttk.Style().configure('black/gray.TButton', foreground='black', background='blue', height=5, width=15)
         btn_calc = ttk.Button(self, text="calculate", style='black/gray.TButton', command=callback)
         btn_calc.grid(row=12, column=0, padx=10, pady=20)
-        btn_calc.grid_columnconfigure(12, weight=2)
 
 
     def validateFloat(self, value):
-        ENTRY = value.strip()
+        ENTRY = value.strip() # get rid of whitespace (whilte space default)
         if ENTRY == "": return # do noting if we don't have a value
         try:
-            NUMENTRY = float(ENTRY)
+            NUMENTRY = float(ENTRY) # check if ENTRY is a number
             if NUMENTRY: return True
         except ValueError:
             print('the input value is not integer or float')
@@ -215,7 +207,7 @@ class Main(tk.Frame):
         tc_annotate = points['air']['outputs']['tc']
         te_annotate = points['air']['outputs']['te']
 
-        f1 = Figure(figsize=(8,8), dpi=100)
+        f1 = Figure(figsize=(8,8), dpi=100) # dpi: PNG type figure resolution
         a = f1.add_subplot(111)
         a.set_title('Front-Wall Loading')
         a.plot(pt_air_fr_pr['x'], pt_air_fr_pr['y'])
@@ -251,7 +243,7 @@ class Main(tk.Frame):
 
         b.grid(linestyle='-')
 
-        win_eq_load = tk.Toplevel(self)
+        win_eq_load = tk.Toplevel(self) # tk.Topleve works just like frame, but in a separate window
         win_eq_load.wm_title("Air")
         l = tk.Label(win_eq_load, text="Air")
         l.pack()

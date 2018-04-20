@@ -5,8 +5,8 @@
 ## files
 
 ### source files
-- param.py: for airburst & surface sub-calculation (e.g. getting Ps, Is, Pr, Ir ...etc)
-- eval_param.py: for evaluating intermediate results (e.g. f(U), f(U^2), Y, Anti-log Y ... etc)
+- param.py: for airburst & surface parameters (e.g. getting Ps, Is, Pr, Ir ...etc)
+- eval_param.py: for evaluating intermediate(sub-calculation) results (e.g. f(U), f(U^2), Y, Anti-log Y ... etc)
 - render.py: to render a GUI screen which runs on windows or OSX. It has input features and rendering figures based on the calculations in eval_param.py
 
 ### static files
@@ -47,9 +47,9 @@ class someClassName
   when this class is called, below __init__ is executed with class inputs (arguments)
   def __init__(self, input1, input 2, ...):
 
-  def otherMethods...
+  def otherMethods_1...
   ...
-  def otherMethods...
+  def otherMethods_2...
   ...
 
 
@@ -61,10 +61,24 @@ if __name__ == "__main__"
 what the heck is this?
 answer) if there are some codes under if __name__ == "__main__", this means that the code under this statement only runs when this file was run directly
 
+2. what is matplotlib.use("TkAgg") in render.py ?
+ref: https://matplotlib.org/faq/usage_faq.html#gtk-and-cairo
+Agg means a certain rendering engine (filetype: PNG)
+TKAgg means Agg rendering to TK canvas
+
+3. what is PIL library in render.py ?
+ref: https://pypi.org/project/Pillow/2.2.1/
+Python Imaging Library
+
+4. *args, **kwargs in class window, in render.py?
+ref: https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
+don't bother, it is just exgra arguments can get passed in the future and acceess them
+any unknown arguments can be acceessible with *args and **kwargs (key word arguments like dictionary)
+
 ## how to bundle and publish window or osx program
 ### VERY IMPORTANT! this program runs depending on which Operating System you use
 
-go to BLC.spec file, you need to update the following two lines based on your directory
+go to BLC.spec file, you need to update the following two lines based on your directory & Operating System
 1. line 7 pathex => your project directory
 2. line 17 image_files => your image, dimension.png directory
 
